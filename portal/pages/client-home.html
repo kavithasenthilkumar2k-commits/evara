@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home — EVARA Client Portal</title>
+  <link rel="stylesheet" href="../css/portal.css" />
+  <link rel="icon" type="image/png" href="../../../images/logo/evara-logo.png">
+</head>
+<body>
+
+<div id="toast"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="portal-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <a href="https://www.evarainteriors.in" target="_blank" class="sidebar-logo" style="text-decoration:none; display:block;">
+  <div class="sidebar-logo-name">EVARA INTERIORS</div>
+  <div class="sidebar-logo-tag">Client Portal</div>
+</a>
+    <div class="sidebar-user">
+      <div class="sidebar-user-name" id="sidebarClientName">—</div>
+      <div class="sidebar-user-role">Client</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" href="client-home.html">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </a>
+      <a class="nav-item" id="navContract" href="client-contract.html">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Contract
+      </a>
+      <a class="nav-item" id="navMoodBoard" href="client-moodboard.html">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/></svg>
+        Mood Board
+      </a>
+      <a class="nav-item" id="navDesign3d" href="client-3ddesign.html">
+        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        3D Design
+      </a>
+      <a class="nav-item" id="navQuestionnaire" href="client-questionnaire.html" style="display:none;">
+        <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Questionnaire
+      </a>
+      <a class="nav-item" id="navQuotation" href="client-quotation.html">
+        <svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        Quotation
+      </a>
+      <a class="nav-item" id="navWorkSchedule" href="client-workschedule.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Work Schedule
+      </a>
+      <a class="nav-item" id="navPayments" href="client-payments.html">
+        <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        Payments
+      </a>
+      <a class="nav-item" href="client-contacts.html">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Contacts
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="signout-btn" id="signoutBtn">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" id="menuBtn">
+          <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <span class="topbar-title">Home</span>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-meta" id="topbarDate"></span>
+        <span class="badge" id="statusBadge" style="display:none;"></span>
+      </div>
+    </div>
+
+    <div class="page-body" id="pageBody" style="display:none;">
+
+      <!-- WELCOME MESSAGE -->
+      <div class="card" id="welcomeCard" style="border-left: 3px solid var(--teal);">
+        <div id="welcomeText" style="font-size:13px; color:var(--text-body); line-height:1.8; white-space:pre-wrap;"></div>
+      </div>
+
+      <!-- PROCESS FLOW -->
+      <div class="card">
+        <div class="card-title">Design Journey</div>
+        <div class="steps-row" id="stepsRow"></div>
+      </div>
+
+      <!-- STATS -->
+      <div class="grid-3" style="margin-bottom:16px;">
+        <div class="stat-card">
+          <div class="stat-label">Project</div>
+          <div class="stat-value" id="statProject" style="font-size:16px; margin-top:4px;">—</div>
+          <div class="stat-sub" id="statLocation">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Current Stage</div>
+          <div class="stat-value teal" id="statStage" style="font-size:14px; margin-top:4px;">—</div>
+          <div class="stat-sub" id="statStageNum">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Last Updated</div>
+          <div class="stat-value" id="statUpdated" style="font-size:16px; margin-top:4px;">—</div>
+          <div class="stat-sub">by Priyanka</div>
+        </div>
+      </div>
+
+      <!-- UPDATES (only shown if any exist) -->
+      <div class="card" id="updatesCard" style="display:none;">
+        <div class="card-title">Updates from Priyanka</div>
+        <div id="updatesList"></div>
+      </div>
+
+    </div>
+
+    <!-- LOADING STATE -->
+    <div id="loadingState" style="display:flex; align-items:center; justify-content:center; height:60vh;">
+      <div style="text-align:center; color:var(--text-muted);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 1s linear infinite; margin-bottom:12px;"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
+        <div style="font-size:12px;">Loading your project...</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .update-item {
+    display: flex;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .update-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .update-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 5px;
+  }
+  .update-dot.unseen { background: var(--teal); }
+  .update-dot.seen   { background: var(--border); }
+  .update-date  { font-size: 10px; color: var(--text-muted); margin-bottom: 3px; }
+  .update-text  { font-size: 13px; color: var(--text-body); line-height: 1.6; }
+  .update-seen  { font-size: 10px; color: var(--teal); margin-left:auto; flex-shrink:0; margin-top:3px; }
+  .update-unseen{ font-size: 10px; color: var(--text-muted); margin-left:auto; flex-shrink:0; margin-top:3px; }
+  .sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+}
+.sidebar-footer {
+  flex-shrink: 0;
+}
+</style>
+
+<script type="module">
+import { auth, db } from '../js/firebase.js';
+import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import {
+  doc, getDoc, collection, query, orderBy, limit,
+  onSnapshot, getDocs, writeBatch, serverTimestamp
+} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const STEPS = [
+  'Design Brief',
+  'Mood Board',
+  '3D Design',
+  'Budget & Approval',
+  'Execution',
+  'Final Handover'
+];
+
+let clientId = null;
+
+// ── DATE ──
+document.getElementById('topbarDate').textContent =
+  new Date().toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'long', year:'numeric' });
+
+// ── MOBILE SIDEBAR ──
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+});
+document.getElementById('sidebarOverlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+});
+
+// ── SIGN OUT ──
+document.getElementById('signoutBtn').addEventListener('click', async () => {
+  await signOut(auth);
+  window.location.href = '../index.html';
+});
+
+// ── AUTH ──
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { window.location.href = '../index.html'; return; }
+
+  // Check if admin — redirect to dashboard
+  const adminDoc = await getDoc(doc(db, 'admins', user.uid));
+  if (adminDoc.exists()) { window.location.href = 'dashboard.html'; return; }
+
+  clientId = user.uid;
+  loadClientData();
+});
+
+// ── LOAD DATA ──
+function loadClientData() {
+  onSnapshot(doc(db, 'clients', clientId), async (snap) => {
+    if (!snap.exists()) {
+      document.getElementById('loadingState').innerHTML =
+        '<div style="text-align:center; color:var(--text-muted); padding:40px;">Project data not found. Contact Priyanka.</div>';
+      return;
+    }
+
+    const d = snap.data();
+
+    // Sidebar name
+    document.getElementById('sidebarClientName').textContent = d.displayName || '—';
+
+    // Status badge
+    const badge = document.getElementById('statusBadge');
+    const status = d.projectStatus || 'Planning';
+    badge.textContent = status;
+    badge.className = 'badge ' + (status === 'Completed' ? 'badge-completed' : status === 'In Progress' ? 'badge-progress' : 'badge-planning');
+    badge.style.display = 'inline-block';
+
+    // Welcome message
+    if (d.welcomeMessage) {
+      document.getElementById('welcomeText').textContent = d.welcomeMessage;
+      document.getElementById('welcomeCard').style.display = 'block';
+    } else {
+      document.getElementById('welcomeCard').style.display = 'none';
+    }
+
+    // Process flow
+    renderSteps(d.currentStage || 1);
+
+    // Stats
+    document.getElementById('statProject').textContent  = d.projectName || '—';
+    document.getElementById('statLocation').textContent = d.location || '—';
+    document.getElementById('statStage').textContent    = STEPS[(d.currentStage || 1) - 1] || '—';
+    document.getElementById('statStageNum').textContent = `Step ${d.currentStage || 1} of 6`;
+    document.getElementById('statUpdated').textContent  = d.lastEdited ? timeAgo(d.lastEdited.toDate()) : '—';
+
+    // Sidebar visibility
+    applyVisibility(d.visibility || {});
+
+    // Show page
+    document.getElementById('loadingState').style.display = 'none';
+    document.getElementById('pageBody').style.display = 'block';
+
+    // Load updates
+    loadUpdates();
+  });
+}
+
+// ── RENDER STEPS ──
+function renderSteps(currentStage) {
+  const row = document.getElementById('stepsRow');
+  row.innerHTML = '';
+  STEPS.forEach((label, i) => {
+    const stepNum = i + 1;
+    const isDone   = stepNum < currentStage;
+    const isActive = stepNum === currentStage;
+
+    const step = document.createElement('div');
+    step.className = 'step-item' + (isDone ? ' done' : isActive ? ' active' : '');
+    step.innerHTML = `
+      <div class="step-circle">
+        ${isDone
+          ? `<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`
+          : stepNum}
+      </div>
+      <div class="step-label">${label}</div>
+    `;
+    row.appendChild(step);
+
+    if (i < STEPS.length - 1) {
+      const connector = document.createElement('div');
+      connector.className = 'step-connector' + (isDone ? ' done' : '');
+      row.appendChild(connector);
+    }
+  });
+}
+
+// ── APPLY VISIBILITY ──
+function applyVisibility(vis) {
+  const map = {
+    contract:      'navContract',
+    moodBoard:     'navMoodBoard',
+    design3d:      'navDesign3d',
+    quotation:     'navQuotation',
+    workSchedule:  'navWorkSchedule',
+    payments:      'navPayments',
+    questionnaire: 'navQuestionnaire',
+  };
+  Object.entries(map).forEach(([key, navId]) => {
+    const el = document.getElementById(navId);
+    if (!el) return;
+    const show = vis[key] !== false;
+    el.style.display = show ? 'flex' : 'none';
+  });
+}
+
+// ── LOAD UPDATES ──
+async function loadUpdates() {
+  const q = query(
+    collection(db, 'clients', clientId, 'updates'),
+    orderBy('postedAt', 'desc'),
+    limit(10)
+  );
+
+  onSnapshot(q, async (snap) => {
+    if (snap.empty) {
+      document.getElementById('updatesCard').style.display = 'none';
+      return;
+    }
+
+    document.getElementById('updatesCard').style.display = 'block';
+    const list = document.getElementById('updatesList');
+    list.innerHTML = '';
+
+    const unseenIds = [];
+
+    snap.docs.forEach(d => {
+      const u = d.data();
+      const seen = u.seenByClient === true;
+      if (!seen) unseenIds.push(d.id);
+
+      const date = u.postedAt ? u.postedAt.toDate().toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '—';
+
+      list.innerHTML += `
+        <div class="update-item">
+          <div class="update-dot ${seen ? 'seen' : 'unseen'}"></div>
+          <div style="flex:1;">
+            <div class="update-date">${date}</div>
+            <div class="update-text">${u.text || ''}</div>
+          </div>
+          <div class="${seen ? 'update-seen' : 'update-unseen'}">
+            ${seen ? '✓ Seen' : '● New'}
+          </div>
+        </div>`;
+    });
+
+    // Mark unseen as seen
+    if (unseenIds.length > 0) {
+      const batch = writeBatch(db);
+      unseenIds.forEach(id => {
+        batch.update(doc(db, 'clients', clientId, 'updates', id), {
+          seenByClient: true,
+          seenAt: serverTimestamp()
+        });
+      });
+      await batch.commit();
+    }
+  });
+}
+
+// ── HELPERS ──
+function timeAgo(date) {
+  const diff = Math.floor((Date.now() - date) / 1000);
+  if (diff < 60)     return 'just now';
+  if (diff < 3600)   return Math.floor(diff/60) + ' mins ago';
+  if (diff < 86400)  return Math.floor(diff/3600) + ' hrs ago';
+  if (diff < 604800) return Math.floor(diff/86400) + ' days ago';
+  return date.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+}
+
+  /* ── Disable browser back/forward ── */
+history.pushState(null, '', location.href);
+window.addEventListener('popstate', () => {
+  history.go(1); // cancel the back navigation by going forward again
+});
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) {
+    window.location.reload();
+  }
+});
+</script>
+
+</body>
+</html>

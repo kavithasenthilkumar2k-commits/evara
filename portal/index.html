@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EVARA Interiors | Client Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      background: #FAF8F4;
+    }
+
+    /* ── LAYOUT ── */
+    #portal-login {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 100vh;
+    }
+
+    /* ── LEFT PANEL ── */
+    .login-left {
+      background: #156F6F;
+      padding: 40px 44px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    .login-left::before {
+      content: '';
+      position: absolute;
+      width: 380px; height: 380px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.07);
+      bottom: -100px; left: -100px;
+      pointer-events: none;
+    }
+    .login-left::after {
+      content: '';
+      position: absolute;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.07);
+      top: -60px; right: -60px;
+      pointer-events: none;
+    }
+
+    .left-brand {
+      position: relative; z-index: 1;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .left-brand-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 30px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      color: #FAF8F4;
+    }
+    .left-brand-tag {
+      font-size: 22px;
+      letter-spacing: 0.15em;
+      
+      color: rgba(255,255,255,0.4);
+      margin-top: 3px;
+      font-style: italic;
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    .left-content { position: relative; z-index: 1; }
+    .left-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 40px;
+      font-weight: 300;
+      color: #FAF8F4;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .left-headline em { font-style: italic; color: rgba(255,255,255,0.6); display: block; }
+
+    .left-desc {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.8;
+      margin-bottom: 24px;
+      max-width: 340px;
+    }
+    .left-features { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .left-features li {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .left-features li::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.85);
+      flex-shrink: 0;
+    }
+
+    .left-footer {
+      position: relative; z-index: 1;
+      font-size: 11px;
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ── RIGHT PANEL ── */
+    .login-right {
+      background: #FAF8F4;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 32px;
+    }
+    .login-right-inner {
+      width: 100%;
+      max-width: 340px;
+      text-align: center;
+    }
+
+    /* Logo on right */
+    .right-logo {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid #E0DAD2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .right-logo img {
+      width: 30px; height: 30px;
+      object-fit: contain;
+    }
+
+    /* ── SCREENS (shown/hidden via JS) ── */
+    .screen { display: none; width: 100%; }
+    .screen.active { display: block; }
+
+    /* ── FORM ELEMENTS ── */
+    .screen-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 400;
+      color: #1C1916;
+      margin-bottom: 6px;
+    }
+    .screen-sub {
+      font-size: 13px;
+      color: #8C8480;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+    .step-pill {
+      display: inline-block;
+      background: #1A8F8F;
+      color: #fff;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      padding: 3px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .form-group { margin-bottom: 14px; text-align: left; }
+    .form-label {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: #8C8480;
+      margin-bottom: 5px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 10px 13px;
+      border: 1px solid #E0DAD2;
+      background: #ffffff;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      color: #1C1916;
+      outline: none;
+      border-radius: 3px;
+      transition: border-color 0.15s;
+    }
+    .form-input:focus { border-color: #1A8F8F; }
+    .form-input::placeholder { color: #C0BAB4; }
+    .form-input.error { border-color: #C62828; }
+
+    .pw-wrap { position: relative; }
+    .pw-wrap .form-input { padding-right: 42px; }
+    .eye-btn {
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: #8C8480;
+      display: flex; align-items: center; justify-content: center; padding: 2px;
+    }
+    .eye-btn svg { width: 17px; height: 17px; }
+
+    /* Password rules */
+    .pw-rules { margin: 8px 0 12px; text-align: left; }
+    .pw-rule {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 11px; color: #C0BAB4; margin-bottom: 5px;
+      transition: color 0.2s;
+    }
+    .pw-rule.met { color: #1A8F8F; }
+    .pw-rule svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%;
+      padding: 12px;
+      background: #156F6F;
+      color: white;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 3px;
+      margin-top: 4px;
+      transition: background 0.15s;
+      margin-bottom: 14px;
+    }
+    .btn-primary:hover { background: #0F5F5F; }
+    .btn-primary:disabled { background: #aaa; cursor: not-allowed; }
+
+    .btn-secondary {
+      width: 100%;
+      padding: 12px;
+      background: transparent;
+      color: #1A8F8F;
+      border: 1px solid #1A8F8F;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: all 0.15s;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    .btn-secondary:hover { background: rgba(26,143,143,0.06); }
+
+    .divider-or {
+      display: flex; align-items: center; gap: 10px;
+      margin: 4px 0 10px; color: #C0BAB4; font-size: 11px;
+      font-weight: 700;
+    }
+    .divider-or::before, .divider-or::after {
+      content: ''; flex: 1; height: 1px; background: #E0DAD2; 
+    }
+
+    .back-link {
+      display: inline-block;
+      font-size: 12px;
+      color: #1A8F8F;
+      text-decoration: none;
+      cursor: pointer;
+      margin-top: 2px;
+    }
+    .back-link:hover { text-decoration: underline; }
+
+    .link-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 2px;
+    }
+    .small-link {
+      font-size: 12px;
+      color: #1A8F8F;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    .small-link:hover { text-decoration: underline; }
+
+    /* Info boxes */
+    .info-warn {
+      background: #FFF8E1;
+      border: 1px solid #FFE082;
+      border-radius: 4px;
+      padding: 9px 12px;
+      font-size: 11px;
+      color: #7A5F00;
+      margin-bottom: 14px;
+      text-align: left;
+      line-height: 1.6;
+    }
+    .info-success {
+      background: #E8F5F5;
+      border: 1px solid rgba(26,143,143,0.3);
+      border-radius: 4px;
+      padding: 9px 12px;
+      font-size: 11px;
+      color: #0D4F4F;
+      margin-bottom: 14px;
+      text-align: left;
+      line-height: 1.6;
+    }
+
+    .error-msg {
+      font-size: 12px;
+      color: #C62828;
+      min-height: 18px;
+      margin-bottom: 6px;
+      text-align: left;
+    }
+
+    .note-text {
+      font-size: 11px;
+      color: #8C8480;
+      line-height: 1.7;
+      padding-top: 14px;
+      border-top: 1px solid #E0DAD2;
+      margin-top: 8px;
+    }
+
+    /* ── MOBILE ── */
+    #mobile-logo {
+      display: none;
+      text-decoration: none;
+      text-align: center;
+      margin-bottom: 24px;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @media (max-width: 768px) {
+      body { overflow: auto; }
+      #portal-login { grid-template-columns: 1fr; height: auto; }
+      .login-left { display: none; }
+      .login-right {
+        min-height: 100vh;
+        padding: 40px 24px;
+        align-items: flex-start;
+        padding-top: 52px;
+      }
+      #mobile-logo { display: flex; }
+      .right-logo { display: none; }
+    }
+  </style>
+<link rel="icon" type="image/png" href="../../images/logo/evara-logo.png">
+</head>
+<body>
+
+<div id="portal-login">
+
+  <!-- ══ LEFT PANEL ══ -->
+  <div class="login-left">
+    <a href="https://www.evarainteriors.in" class="left-brand" target="_blank">
+      <div class="left-brand-name">EVARA INTERIORS</div>
+      <div class="left-brand-tag">Curating Your Abode...</div>
+    </a>
+    <div class="left-content">
+      <h1 class="left-headline">Your Project,<em>At a Glance</em></h1>
+      <p class="left-desc">Track every detail of your interior design journey — from mood boards to final handover — all in one place.</p>
+      <ul class="left-features">
+        <li>Project timeline &amp; stage tracker</li>
+        <li>Contracts &amp; documents</li>
+        <li>Design selections &amp; renders</li>
+        <li>Payment history &amp; receipts</li>
+        <li>Direct updates from Priyanka</li>
+      </ul>
+    </div>
+    <div class="left-footer">© 2025 Evara Interiors. All rights reserved.</div>
+  </div>
+
+  <!-- ══ RIGHT PANEL ══ -->
+  <div class="login-right">
+    <div class="login-right-inner">
+
+      <!-- Mobile logo (only visible on mobile) -->
+      <a href="https://www.evarainteriors.in" id="mobile-logo" target="_blank">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:400;letter-spacing:0.2em;color:#0D4F4F;">EVARA INTERIORS</div>
+        <div style="font-size:14px; letter-spacing:0.14em; text-transform:uppercase; color:#8C8480; margin-top:3px; font-style:italic; font-family:'Cormorant Garamond',serif;">Curating Your Abode...</div>
+      </a>
+
+      <!-- Logo circle (desktop) -->
+      <a href="https://www.evarainteriors.in" class="right-logo" target="_blank">
+        <img src="./evara-logo.png" alt="Evara Interiors" />
+      </a>
+
+      <!-- ── SCREEN 1: First time? ── -->
+      <div class="screen active" id="screen-entry">
+        <div class="screen-title">Is this your first<br>time logging in?</div>
+        <p class="screen-sub">First-time users need to set a new password before signing in.</p>
+        <button class="btn-primary" onclick="showScreen('screen-login')">Existing Client →</button>
+          <div class="divider-or">or</div>
+        <button class="btn-secondary" onclick="showScreen('screen-firsttime-step1')">First Time User→</button>
+        <div style="text-align:center; margin-top:4px;">
+          <span class="small-link" onclick="showScreen('screen-forgot')">Forgot password?</span>
+        </div>
+      </div>
+
+      <!-- ── SCREEN 2: Normal login ── -->
+      <div class="screen" id="screen-login">
+        <div class="screen-title">Welcome Back</div>
+        <p class="screen-sub">This portal is exclusively for Evara Interiors clients.</p>
+
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" id="login-email" class="form-input" placeholder="your@email.com" autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="pw-wrap">
+            <input type="password" id="login-password" class="form-input" placeholder="••••••••" autocomplete="current-password" />
+            <button type="button" class="eye-btn" onclick="toggleEye('login-password','eye-login')">
+              <svg id="eye-login" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <p class="error-msg" id="login-error"></p>
+        <button class="btn-primary" id="login-btn" onclick="doLogin()">Sign In →</button>
+
+        <div class="link-row">
+          <span class="small-link" onclick="showScreen('screen-entry')">← Back</span>
+          <span class="small-link" onclick="showScreen('screen-forgot')">Forgot password?</span>
+        </div>
+        <p class="note-text">Don't have an account? Contact Evara Interiors to get access.</p>
+      </div>
+
+      <!-- ── SCREEN 3: First-time Step 1 — Verify ── -->
+      <div class="screen" id="screen-firsttime-step1">
+        <div class="step-pill">Step 1 of 2</div>
+        <div class="screen-title">Verify your identity</div>
+        <p class="screen-sub">Enter the email and temporary password Priyanka shared with you.</p>
+
+        <div class="info-warn">
+          Your temporary password is for one-time use only. You'll set a permanent password in the next step.
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" id="ft-email" class="form-input" placeholder="your@email.com" autocomplete="username" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Temporary Password</label>
+          <div class="pw-wrap">
+            <input type="password" id="ft-temppass" class="form-input" placeholder="••••••••" autocomplete="current-password" />
+            <button type="button" class="eye-btn" onclick="toggleEye('ft-temppass','eye-ft1')">
+              <svg id="eye-ft1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <p class="error-msg" id="ft1-error"></p>
+        <button class="btn-primary" id="ft1-btn" onclick="doFirstTimeVerify()">Verify &amp; Continue →</button>
+        <span class="back-link" onclick="showScreen('screen-entry')">← Back</span>
+      </div>
+
+      <!-- ── SCREEN 4: First-time Step 2 — Set Password ── -->
+      <div class="screen" id="screen-firsttime-step2">
+        <div class="step-pill">Step 2 of 2</div>
+        <div class="screen-title">Set your password</div>
+        <p class="screen-sub">Choose a strong password you'll use from now on.</p>
+
+        <div class="form-group">
+          <label class="form-label">New Password</label>
+          <div class="pw-wrap">
+            <input type="password" id="ft-newpass" class="form-input" placeholder="••••••••" autocomplete="new-password" oninput="checkRules()" />
+            <button type="button" class="eye-btn" onclick="toggleEye('ft-newpass','eye-ft2')">
+              <svg id="eye-ft2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="pw-rules">
+            <div class="pw-rule" id="rule-len">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+              At least 8 characters
+            </div>
+            <div class="pw-rule" id="rule-upper">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+              1 uppercase letter (A–Z)
+            </div>
+            <div class="pw-rule" id="rule-num">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+              1 number (0–9)
+            </div>
+            <div class="pw-rule" id="rule-special">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+              1 special character (!@#$%^&amp;*)
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Confirm New Password</label>
+          <div class="pw-wrap">
+            <input type="password" id="ft-confirmpass" class="form-input" placeholder="••••••••" autocomplete="new-password" />
+            <button type="button" class="eye-btn" onclick="toggleEye('ft-confirmpass','eye-ft3')">
+              <svg id="eye-ft3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <p class="error-msg" id="ft2-error"></p>
+        <button class="btn-primary" id="ft2-btn" onclick="doSetPassword()">Save Password &amp; Sign In →</button>
+      </div>
+
+      <!-- ── SCREEN 5: Forgot Password ── -->
+      <div class="screen" id="screen-forgot">
+        <div class="screen-title">Reset your password</div>
+        <p class="screen-sub">Enter your email and we'll send a reset link to your inbox.</p>
+
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input type="email" id="forgot-email" class="form-input" placeholder="your@email.com" autocomplete="username" />
+        </div>
+
+        <div class="info-success" id="forgot-success" style="display:none;">
+          Reset link sent! Check your inbox and follow the instructions to set a new password.
+        </div>
+
+        <p class="error-msg" id="forgot-error"></p>
+        <button class="btn-primary" id="forgot-btn" onclick="doForgotPassword()">Send Reset Link →</button>
+        <span class="back-link" onclick="showScreen('screen-entry')">← Back to login</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { auth, db } from './js/firebase.js';
+  import {
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    updatePassword,
+    sendPasswordResetEmail
+  } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+  import {
+    doc, getDoc, updateDoc
+  } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+  /* ── Disable browser back/forward ── */
+history.pushState(null, '', location.href);
+window.addEventListener('popstate', () => {
+  history.go(1); // cancel the back navigation by going forward again
+});
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) {
+    window.location.reload();
+  }
+});
+  /* ── Redirect if already logged in ── */
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) return;
+    try {
+      const adminDoc = await getDoc(doc(db, 'admins', user.uid));
+      if (adminDoc.exists()) {
+        window.location.replace('pages/dashboard.html');
+        return;
+      }
+      const clientDoc = await getDoc(doc(db, 'clients', user.uid));
+      if (clientDoc.exists()) {
+        const data = clientDoc.data();
+        if (data.firstLogin === true) {
+          // Already signed in but firstLogin still true — show step 2
+          window._ftUser = user;
+          showScreen('screen-firsttime-step2');
+        } else {
+          window.location.replace('pages/client-home.html');
+        }
+      }
+    } catch(e) { console.error(e); }
+  });
+
+  /* ── Screen switcher ── */
+  window.showScreen = function(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    // clear errors when switching
+    document.querySelectorAll('.error-msg').forEach(e => e.textContent = '');
+    document.getElementById('forgot-success').style.display = 'none';
+  };
+
+  /* ── Eye toggle ── */
+  window.toggleEye = function(inputId, svgId) {
+    const input = document.getElementById(inputId);
+    const isPass = input.type === 'password';
+    input.type = isPass ? 'text' : 'password';
+    const svg = document.getElementById(svgId);
+    svg.innerHTML = isPass
+      ? `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`
+      : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+  };
+
+  /* ── Password rules ── */
+  const CHECK_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;"><polyline points="20 6 9 17 4 12"/></svg>`;
+  const CIRCLE_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;flex-shrink:0;"><circle cx="12" cy="12" r="10"/></svg>`;
+
+  window.checkRules = function() {
+    const val = document.getElementById('ft-newpass').value;
+    setRule('rule-len',     val.length >= 8);
+    setRule('rule-upper',   /[A-Z]/.test(val));
+    setRule('rule-num',     /[0-9]/.test(val));
+    setRule('rule-special', /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val));
+  };
+
+  function setRule(id, met) {
+    const el = document.getElementById(id);
+    el.classList.toggle('met', met);
+    const text = el.childNodes[el.childNodes.length - 1].textContent.trim();
+    el.innerHTML = (met ? CHECK_SVG : CIRCLE_SVG) + ' ' + text;
+  }
+
+  function allRulesMet() {
+    const val = document.getElementById('ft-newpass').value;
+    return val.length >= 8 && /[A-Z]/.test(val) && /[0-9]/.test(val) && /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val);
+  }
+
+  /* ── Normal login ── */
+  window.doLogin = async function() {
+    const email    = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    const errEl    = document.getElementById('login-error');
+    const btn      = document.getElementById('login-btn');
+
+    if (!email || !password) { errEl.textContent = 'Please enter your email and password.'; return; }
+
+    btn.textContent = 'Signing in...';
+    btn.disabled = true;
+    errEl.textContent = '';
+
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      const adminDoc = await getDoc(doc(db, 'admins', cred.user.uid));
+      if (adminDoc.exists()) {
+        window.location.replace('pages/dashboard.html');
+        return;
+      }
+      const clientDoc = await getDoc(doc(db, 'clients', cred.user.uid));
+      if (clientDoc.exists() && clientDoc.data().firstLogin === true) {
+        // They came through normal login but firstLogin is still true — redirect to set password
+        window._ftUser = cred.user;
+        showScreen('screen-firsttime-step2');
+        btn.textContent = 'Sign In →';
+        btn.disabled = false;
+        return;
+      }
+      window.location.replace('pages/client-home.html');
+    } catch (err) {
+      btn.textContent = 'Sign In →';
+      btn.disabled = false;
+      errEl.textContent = 'Incorrect email or password. Please try again.';
+    }
+  };
+
+  document.getElementById('login-password').addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.doLogin();
+  });
+
+  /* ── First-time: Step 1 verify ── */
+  window.doFirstTimeVerify = async function() {
+    const email   = document.getElementById('ft-email').value.trim();
+    const tmpPass = document.getElementById('ft-temppass').value;
+    const errEl   = document.getElementById('ft1-error');
+    const btn     = document.getElementById('ft1-btn');
+
+    if (!email || !tmpPass) { errEl.textContent = 'Please enter your email and temporary password.'; return; }
+
+    btn.textContent = 'Verifying...';
+    btn.disabled = true;
+    errEl.textContent = '';
+
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, tmpPass);
+      // Check firstLogin flag
+      const clientDoc = await getDoc(doc(db, 'clients', cred.user.uid));
+      if (!clientDoc.exists() || clientDoc.data().firstLogin !== true) {
+        // Already set up — just send them in
+        window.location.replace('pages/client-home.html');
+        return;
+      }
+      window._ftUser = cred.user;
+      window._ftTempPass = tmpPass;
+      showScreen('screen-firsttime-step2');
+    } catch (err) {
+      errEl.textContent = 'Incorrect email or temporary password. Please check and try again.';
+    } finally {
+      btn.textContent = 'Verify & Continue →';
+      btn.disabled = false;
+    }
+  };
+
+  /* ── First-time: Step 2 set password ── */
+  window.doSetPassword = async function() {
+    const newPass     = document.getElementById('ft-newpass').value;
+    const confirmPass = document.getElementById('ft-confirmpass').value;
+    const errEl       = document.getElementById('ft2-error');
+    const btn         = document.getElementById('ft2-btn');
+
+    errEl.textContent = '';
+
+    if (!allRulesMet()) {
+      errEl.textContent = 'Password does not meet all requirements above.';
+      return;
+    }
+    if (newPass !== confirmPass) {
+      errEl.textContent = 'Passwords do not match.';
+      document.getElementById('ft-confirmpass').classList.add('error');
+      return;
+    }
+    document.getElementById('ft-confirmpass').classList.remove('error');
+
+    if (!window._ftUser) {
+      errEl.textContent = 'Session expired. Please start again.';
+      showScreen('screen-entry');
+      return;
+    }
+
+    btn.textContent = 'Saving...';
+    btn.disabled = true;
+
+    try {
+  try {
+    await updatePassword(window._ftUser, newPass);
+  } catch (err) {
+    if (err.code === 'auth/requires-recent-login') {
+      const { reauthenticateWithCredential, EmailAuthProvider } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
+      const credential = EmailAuthProvider.credential(window._ftUser.email, window._ftTempPass);
+      await reauthenticateWithCredential(window._ftUser, credential);
+      await updatePassword(window._ftUser, newPass);
+    } else { throw err; }
+  }
+  await updateDoc(doc(db, 'clients', window._ftUser.uid), {
+    firstLogin: false,
+    passwordPlain: ''
+  });
+  window.location.replace('pages/client-home.html');
+} catch (err) {
+  console.error(err);
+  errEl.textContent = 'Something went wrong. Please try again.';
+  btn.textContent = 'Save Password & Sign In →';
+  btn.disabled = false;
+}
+  };
+
+  /* ── Forgot password ── */
+  window.doForgotPassword = async function() {
+    const email  = document.getElementById('forgot-email').value.trim();
+    const errEl  = document.getElementById('forgot-error');
+    const btn    = document.getElementById('forgot-btn');
+    const succEl = document.getElementById('forgot-success');
+
+    if (!email) { errEl.textContent = 'Please enter your email address.'; return; }
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    errEl.textContent = '';
+    succEl.style.display = 'none';
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      succEl.style.display = 'block';
+      btn.textContent = 'Send Reset Link →';
+      btn.disabled = false;
+    } catch (err) {
+      // Don't reveal whether email exists — show same success message for security
+      succEl.style.display = 'block';
+      btn.textContent = 'Send Reset Link →';
+      btn.disabled = false;
+    }
+  };
+
+  document.getElementById('forgot-email').addEventListener('keydown', e => {
+    if (e.key === 'Enter') window.doForgotPassword();
+  });
+</script>
+
+</body>
+</html>

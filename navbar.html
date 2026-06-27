@@ -1,0 +1,49 @@
+<nav id="navbar">
+  <a href="../index.html" class="nav-logo">
+    <img src="../images/logo/evara-logo.png" alt="Evara Interiors Logo" class="nav-logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"/>
+    <span class="nav-logo-text" style="display:none;">EVARA</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#services">What We Do</a></li>
+    <li><a href="../index.html#portfolio">Our Work</a></li>
+    <li><a href="../index.html#process">Design Process</a></li>
+    <li><a href="../index.html#awards">Awards & Recognitions</a></li>
+    <li><a href="../index.html#reviews">Testimonials</a></li>
+    <li><a href="../index.html#footer">Contact</a></li>
+  </ul>
+  <a href="#" class="nav-cta" id="navCtaBtn">Book a Free Consultation</a>
+  <button class="hamburger" id="hamburgerBtn" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<script>
+  // Navbar scroll
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Hamburger
+  const _hamburgerBtn = document.getElementById('hamburgerBtn');
+  const _navLinks = document.getElementById('navLinks');
+  if (_hamburgerBtn && _navLinks) {
+    _hamburgerBtn.addEventListener('click', () => _navLinks.classList.toggle('open'));
+    document.addEventListener('click', (e) => {
+      if (_navLinks.classList.contains('open') && !_navLinks.contains(e.target) && !_hamburgerBtn.contains(e.target)) {
+        _navLinks.classList.remove('open');
+      }
+    });
+    document.querySelectorAll('.nav-links a').forEach(l => l.addEventListener('click', () => _navLinks.classList.remove('open')));
+  }
+
+  // CTA button opens consultation popup
+  const _navCta = document.getElementById('navCtaBtn');
+  if (_navCta) {
+    _navCta.addEventListener('click', (e) => {
+      e.preventDefault();
+      const popup = document.getElementById('consultationPopup');
+      if (popup) { popup.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    });
+  }
+</script>

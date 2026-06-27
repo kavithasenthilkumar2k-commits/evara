@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evara Interiors — Design That Feels Like You</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #F5F0E8;
+    --warm-white: #FAF8F4;
+    --deep: #1A1612;
+    --mocha: #3D2B1F;
+    --gold: #C9A96E;
+    --gold-light: #E8D5B0;
+    --sage: #8B9B7A;
+    --text-muted: #8A7F74;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--deep);
+    color: var(--cream);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.1s ease;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(201,169,110,0.5);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.15s ease, width 0.3s, height 0.3s, border-color 0.3s;
+  }
+  .cursor-ring.hovered {
+    width: 56px; height: 56px;
+    border-color: var(--gold);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 28px 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(26,22,18,0.9), transparent);
+    backdrop-filter: blur(0px);
+    transition: background 0.4s, backdrop-filter 0.4s, padding 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(26,22,18,0.95);
+    backdrop-filter: blur(20px);
+    padding: 18px 60px;
+    border-bottom: 1px solid rgba(201,169,110,0.15);
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: 3px;
+    color: var(--cream);
+    text-decoration: none;
+  }
+  .logo span { color: var(--gold); }
+  .nav-links {
+    display: flex; gap: 40px; list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px; font-weight: 300; letter-spacing: 2px;
+    color: rgba(245,240,232,0.7);
+    text-decoration: none; text-transform: uppercase;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px; background: var(--gold);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--cream); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--deep); background: var(--gold);
+    border: none; padding: 12px 28px;
+    cursor: none; font-family: 'DM Sans', sans-serif;
+    transition: background 0.3s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* HERO */
+  #hero {
+    height: 100vh; min-height: 700px;
+    position: relative;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+
+  /* 3D CANVAS BACKGROUND */
+  #hero-canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+  }
+
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(26,22,18,0.75) 0%, rgba(26,22,18,0.3) 60%, rgba(26,22,18,0.6) 100%);
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    padding: 0 60px; max-width: 750px;
+  }
+  .hero-tag {
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 24px;
+    opacity: 0; transform: translateY(20px);
+    animation: fadeUp 0.8s 0.3s forwards;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(52px, 7vw, 96px);
+    font-weight: 300; line-height: 1.05;
+    color: var(--cream);
+    opacity: 0; transform: translateY(30px);
+    animation: fadeUp 1s 0.5s forwards;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--gold);
+  }
+  .hero-sub {
+    margin-top: 28px;
+    font-size: 16px; font-weight: 300; line-height: 1.8;
+    color: rgba(245,240,232,0.75); max-width: 440px;
+    opacity: 0; transform: translateY(20px);
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .hero-actions {
+    margin-top: 44px; display: flex; gap: 20px; align-items: center;
+    opacity: 0; transform: translateY(20px);
+    animation: fadeUp 0.8s 1s forwards;
+  }
+  .btn-primary {
+    background: var(--gold); color: var(--deep);
+    padding: 16px 40px; font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase; text-decoration: none;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+    transition: background 0.3s, transform 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-ghost {
+    color: var(--cream); font-size: 13px; letter-spacing: 1px;
+    text-decoration: none; display: flex; align-items: center; gap: 10px;
+    font-weight: 300; transition: gap 0.3s, color 0.3s;
+  }
+  .btn-ghost:hover { color: var(--gold); gap: 16px; }
+  .btn-ghost::after { content: '→'; font-size: 18px; }
+
+  /* SCROLL INDICATOR */
+  .scroll-ind {
+    position: absolute; bottom: 40px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    opacity: 0; animation: fadeIn 1s 1.5s forwards;
+    z-index: 2;
+  }
+  .scroll-ind span {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: rgba(245,240,232,0.4);
+  }
+  .scroll-line {
+    width: 1px; height: 50px;
+    background: linear-gradient(to bottom, rgba(201,169,110,0.6), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* STATS STRIP */
+  .stats-strip {
+    background: var(--mocha);
+    padding: 32px 60px;
+    display: flex; gap: 0;
+    border-top: 1px solid rgba(201,169,110,0.2);
+    border-bottom: 1px solid rgba(201,169,110,0.2);
+  }
+  .stat-item {
+    flex: 1; text-align: center; padding: 0 20px;
+    border-right: 1px solid rgba(201,169,110,0.2);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px; font-weight: 300; color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-muted); margin-top: 6px;
+  }
+
+  /* ABOUT */
+  #about {
+    padding: 120px 60px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 100px;
+    align-items: center;
+  }
+  .about-img-wrap {
+    position: relative;
+    height: 600px;
+  }
+  .about-img-frame {
+    position: absolute; top: 0; left: 0; right: 40px; bottom: 40px;
+    background: var(--mocha);
+    overflow: hidden;
+  }
+  .about-img-frame img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: sepia(15%) contrast(1.05);
+    transition: transform 0.6s ease;
+  }
+  .about-img-frame:hover img { transform: scale(1.04); }
+  .about-gold-rect {
+    position: absolute; bottom: 0; right: 0; width: 180px; height: 180px;
+    border: 2px solid var(--gold);
+    z-index: -1;
+  }
+  .about-tag {
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 20px;
+  }
+  .about-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 50px; font-weight: 300; line-height: 1.1;
+    color: var(--cream); margin-bottom: 28px;
+  }
+  .about-title em { font-style: italic; color: var(--gold); }
+  .about-body {
+    font-size: 15px; font-weight: 300; line-height: 1.9;
+    color: rgba(245,240,232,0.7); margin-bottom: 16px;
+  }
+  .about-creds {
+    margin-top: 36px; padding-top: 36px;
+    border-top: 1px solid rgba(201,169,110,0.2);
+    display: flex; gap: 32px;
+  }
+  .cred-item { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+  .cred-item strong { display: block; color: var(--cream); font-weight: 400; font-size: 14px; }
+
+  /* SERVICES */
+  #services {
+    padding: 100px 60px;
+    background: linear-gradient(180deg, var(--deep) 0%, #12100D 100%);
+  }
+  .section-header {
+    text-align: center; margin-bottom: 70px;
+  }
+  .section-tag {
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px; display: block;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px; font-weight: 300; color: var(--cream);
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  }
+  .service-card {
+    padding: 48px 36px;
+    background: rgba(61,43,31,0.3);
+    border: 1px solid rgba(201,169,110,0.1);
+    position: relative; overflow: hidden;
+    transition: background 0.4s, border-color 0.4s;
+    cursor: none;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s;
+  }
+  .service-card:hover { background: rgba(61,43,31,0.6); border-color: rgba(201,169,110,0.3); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 60px; font-weight: 300; color: rgba(201,169,110,0.15);
+    line-height: 1; margin-bottom: 20px;
+  }
+  .service-icon { font-size: 28px; margin-bottom: 20px; display: block; }
+  .service-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 400; color: var(--cream);
+    margin-bottom: 14px;
+  }
+  .service-desc {
+    font-size: 14px; font-weight: 300; line-height: 1.8;
+    color: rgba(245,240,232,0.6);
+  }
+
+  /* PORTFOLIO */
+  #portfolio {
+    padding: 100px 60px;
+  }
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(2, 320px);
+    gap: 12px; margin-top: 60px;
+  }
+  .port-item {
+    background: var(--mocha); overflow: hidden;
+    position: relative; cursor: none;
+  }
+  .port-item:nth-child(1) { grid-column: 1/6; grid-row: 1/2; }
+  .port-item:nth-child(2) { grid-column: 6/9; grid-row: 1/2; }
+  .port-item:nth-child(3) { grid-column: 9/13; grid-row: 1/3; }
+  .port-item:nth-child(4) { grid-column: 1/4; grid-row: 2/3; }
+  .port-item:nth-child(5) { grid-column: 4/9; grid-row: 2/3; }
+  .port-bg {
+    width: 100%; height: 100%;
+    transition: transform 0.7s ease;
+  }
+  .port-item:hover .port-bg { transform: scale(1.06); }
+  .port-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(26,22,18,0.85) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.4s;
+    display: flex; align-items: flex-end; padding: 24px;
+  }
+  .port-item:hover .port-overlay { opacity: 1; }
+  .port-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; color: var(--cream);
+  }
+  .port-sub { font-size: 12px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+
+  /* PROCESS */
+  #process {
+    padding: 100px 60px;
+    background: var(--mocha);
+  }
+  .process-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; margin-top: 60px;
+    position: relative;
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute; top: 28px; left: 0; right: 0; height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), var(--gold), transparent);
+    opacity: 0.3;
+  }
+  .process-step { padding: 0 32px; text-align: center; }
+  .step-dot {
+    width: 56px; height: 56px; margin: 0 auto 28px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--mocha);
+    position: relative; z-index: 1;
+  }
+  .step-dot-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; color: var(--gold);
+  }
+  .step-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; color: var(--cream);
+    margin-bottom: 12px;
+  }
+  .step-desc {
+    font-size: 13px; line-height: 1.8; color: rgba(245,240,232,0.6);
+    font-weight: 300;
+  }
+
+  /* TESTIMONIALS */
+  #testimonials {
+    padding: 100px 60px;
+    text-align: center;
+  }
+  .testimonial-wrap {
+    max-width: 780px; margin: 60px auto 0;
+  }
+  .testimonial-active {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-style: italic; font-weight: 300;
+    line-height: 1.6; color: var(--cream);
+  }
+  .testimonial-gold { color: var(--gold); }
+  .testimonial-author {
+    margin-top: 32px; font-size: 13px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--text-muted);
+  }
+  .testimonial-dots {
+    display: flex; justify-content: center; gap: 10px; margin-top: 40px;
+  }
+  .t-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(201,169,110,0.3); cursor: none;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .t-dot.active { background: var(--gold); transform: scale(1.4); }
+
+  /* CTA */
+  #cta {
+    padding: 120px 60px;
+    background: linear-gradient(135deg, #1A1612 0%, #2A1F16 50%, #1A1612 100%);
+    text-align: center;
+    border-top: 1px solid rgba(201,169,110,0.15);
+  }
+  .cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(40px, 5vw, 70px); font-weight: 300;
+    color: var(--cream); line-height: 1.15;
+  }
+  .cta-title em { font-style: italic; color: var(--gold); }
+  .cta-sub {
+    margin: 20px auto 0; max-width: 500px;
+    font-size: 15px; font-weight: 300; color: rgba(245,240,232,0.65); line-height: 1.8;
+  }
+  .cta-actions {
+    margin-top: 48px; display: flex; gap: 20px;
+    justify-content: center; align-items: center;
+  }
+  .whatsapp-btn {
+    background: #25D366; color: white;
+    padding: 16px 40px; font-size: 13px; letter-spacing: 1px;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+    text-decoration: none; transition: transform 0.2s, background 0.3s;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .whatsapp-btn:hover { background: #20c05c; transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    background: #0D0B09; padding: 48px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(201,169,110,0.1);
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; color: var(--cream); letter-spacing: 3px;
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer-links { display: flex; gap: 32px; }
+  .footer-links a {
+    font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-muted); text-decoration: none;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-copy { font-size: 12px; color: var(--text-muted); }
+
+  /* KEYFRAMES */
+  @keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.6; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* REVEAL ANIMATION */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.15s; }
+  .reveal-delay-2 { transition-delay: 0.3s; }
+  .reveal-delay-3 { transition-delay: 0.45s; }
+
+  /* PORTFOLIO COLORED PLACEHOLDERS */
+  .port-bg-1 { background: linear-gradient(135deg, #2A2018 0%, #3D3020 100%); position: relative; }
+  .port-bg-2 { background: linear-gradient(135deg, #1C2220 0%, #253028 100%); }
+  .port-bg-3 { background: linear-gradient(135deg, #201C18 0%, #302820 100%); }
+  .port-bg-4 { background: linear-gradient(135deg, #241A14 0%, #3A2618 100%); }
+  .port-bg-5 { background: linear-gradient(135deg, #1A1C20 0%, #252830 100%); }
+
+  /* Faux room illustrations in portfolio boxes */
+  .room-svg { width: 100%; height: 100%; }
+
+  @media (max-width: 1024px) {
+    nav { padding: 20px 30px; }
+    nav.scrolled { padding: 14px 30px; }
+    .hero-content { padding: 0 30px; }
+    #about { grid-template-columns: 1fr; padding: 80px 30px; gap: 60px; }
+    .about-img-wrap { height: 400px; }
+    #services { padding: 80px 30px; }
+    .services-grid { grid-template-columns: 1fr; }
+    #portfolio { padding: 80px 30px; }
+    .portfolio-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .port-item { grid-column: auto !important; grid-row: auto !important; height: 250px; }
+    .process-steps { grid-template-columns: 1fr 1fr; gap: 40px; }
+    #cta { padding: 80px 30px; }
+    footer { flex-direction: column; gap: 24px; text-align: center; }
+    .stats-strip { flex-wrap: wrap; padding: 20px 30px; }
+    .stat-item { flex: 1 0 40%; border-right: none; padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="navbar">
+  <a href="#" class="logo">EVARA<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#process">Process</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">Get in Touch</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-tag">Interior Design Studio · Chennai</p>
+    <h1 class="hero-title">
+      Spaces that feel<br><em>like you.</em>
+    </h1>
+    <p class="hero-sub">
+      We craft homes that hold your personality, your traditions, and your dreams — one thoughtful detail at a time.
+    </p>
+    <div class="hero-actions">
+      <a href="#portfolio" class="btn-primary">View Our Work</a>
+      <a href="#about" class="btn-ghost">Meet Priyanka</a>
+    </div>
+  </div>
+  <div class="scroll-ind">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-num" data-count="100">0</div>
+    <div class="stat-label">Homes Designed</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">7<span style="font-size:24px">+</span></div>
+    <div class="stat-label">Years Experience</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">HETTICH</div>
+    <div class="stat-label">Certified Designer</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Bespoke Designs</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-img-wrap reveal">
+    <div class="about-img-frame">
+      <svg viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+        <rect width="500" height="600" fill="#2A1F16"/>
+        <!-- Wall -->
+        <rect x="40" y="60" width="420" height="380" fill="#3D2B1F" rx="2"/>
+        <!-- Art panel -->
+        <rect x="120" y="100" width="180" height="120" fill="#4A3525" rx="1"/>
+        <rect x="130" y="110" width="160" height="100" fill="#C9A96E" opacity="0.15" rx="1"/>
+        <line x1="150" y1="130" x2="270" y2="190" stroke="#C9A96E" stroke-width="0.5" opacity="0.4"/>
+        <line x1="270" y1="130" x2="150" y2="190" stroke="#C9A96E" stroke-width="0.5" opacity="0.4"/>
+        <!-- Sofa -->
+        <rect x="60" y="340" width="380" height="80" fill="#5C3D2A" rx="4"/>
+        <rect x="60" y="300" width="60" height="120" fill="#6B4830" rx="3"/>
+        <rect x="380" y="300" width="60" height="120" fill="#6B4830" rx="3"/>
+        <rect x="80" y="310" width="340" height="40" fill="#7A5535" rx="2"/>
+        <!-- Cushions -->
+        <rect x="130" y="315" width="70" height="50" fill="#C9A96E" opacity="0.5" rx="3"/>
+        <rect x="220" y="315" width="70" height="50" fill="#8B9B7A" opacity="0.5" rx="3"/>
+        <rect x="310" y="315" width="60" height="50" fill="#C9A96E" opacity="0.3" rx="3"/>
+        <!-- Floor -->
+        <rect x="0" y="440" width="500" height="160" fill="#1A1410"/>
+        <!-- Floor lines -->
+        <line x1="0" y1="460" x2="500" y2="460" stroke="#2A1E18" stroke-width="1"/>
+        <line x1="0" y1="490" x2="500" y2="490" stroke="#2A1E18" stroke-width="1"/>
+        <line x1="0" y1="520" x2="500" y2="520" stroke="#2A1E18" stroke-width="1"/>
+        <line x1="100" y1="440" x2="80" y2="600" stroke="#2A1E18" stroke-width="1"/>
+        <line x1="200" y1="440" x2="190" y2="600" stroke="#2A1E18" stroke-width="1"/>
+        <line x1="300" y1="440" x2="300" y2="600" stroke="#2A1E18" stroke-width="1"/>
+        <line x1="400" y1="440" x2="410" y2="600" stroke="#2A1E18" stroke-width="1"/>
+        <!-- Lamp -->
+        <rect x="395" y="220" width="4" height="140" fill="#8A7060"/>
+        <ellipse cx="397" cy="220" rx="30" ry="12" fill="#C9A96E" opacity="0.3"/>
+        <ellipse cx="397" cy="232" rx="25" ry="10" fill="#C9A96E" opacity="0.2"/>
+        <!-- Glow from lamp -->
+        <ellipse cx="397" cy="250" rx="60" ry="40" fill="#C9A96E" opacity="0.05"/>
+        <!-- Table -->
+        <rect x="160" y="420" width="180" height="24" fill="#3D2B1F" rx="2"/>
+        <rect x="170" y="420" width="8" height="20" fill="#2A1F16"/>
+        <rect x="322" y="420" width="8" height="20" fill="#2A1F16"/>
+        <!-- Vase on table -->
+        <rect x="235" y="395" width="30" height="28" fill="#8B9B7A" rx="14 14 4 4"/>
+        <rect x="241" y="383" width="18" height="16" fill="#7A8A6A" rx="9 9 0 0"/>
+      </svg>
+    </div>
+    <div class="about-gold-rect"></div>
+  </div>
+  <div>
+    <p class="about-tag reveal">The Vision Behind Evara</p>
+    <h2 class="about-title reveal reveal-delay-1">
+      Architecture<br>meets <em>soul.</em>
+    </h2>
+    <p class="about-body reveal reveal-delay-1">
+      Hi, I'm Priyanka Nagarajan — Architect, Interior Designer, and Founder of Evara Interiors.
+      With 7+ years and 100+ homes designed across Chennai, I've learned that great design
+      isn't about trends. It's about <em>you.</em>
+    </p>
+    <p class="about-body reveal reveal-delay-2">
+      Every corner we design holds a story. Every material we choose holds a memory.
+      My philosophy: no two homes should ever look the same, because no two families are.
+    </p>
+    <div class="about-creds reveal reveal-delay-2">
+      <div class="cred-item">
+        <strong>HETTICH Certified</strong>
+        Interior Designer
+      </div>
+      <div class="cred-item">
+        <strong>B.Arch</strong>
+        Architecture Graduate
+      </div>
+      <div class="cred-item">
+        <strong>Chennai</strong>
+        Tamil Nadu, India
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-header">
+    <span class="section-tag reveal">What We Offer</span>
+    <h2 class="section-title reveal">Our <em>Services</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-name">Interior Design</div>
+      <p class="service-desc">Full-scope residential and commercial design — from concept to completion. Every inch planned, every detail considered, every choice purposeful.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-1">
+      <div class="service-num">02</div>
+      <div class="service-name">Space Styling</div>
+      <p class="service-desc">Transform existing spaces with a designer's eye. Furniture arrangement, colour palettes, accessories — making what you have feel entirely new.</p>
+    </div>
+    <div class="service-card reveal reveal-delay-2">
+      <div class="service-num">03</div>
+      <div class="service-name">Bespoke Consultation</div>
+      <p class="service-desc">Perfect for first-time home buyers. A personal 1:1 session to map your vision, clarify your budget, and chart a path that avoids costly mistakes.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="section-header">
+    <span class="section-tag reveal">Selected Projects</span>
+    <h2 class="section-title reveal">Our <em>Work</em></h2>
+  </div>
+  <div class="portfolio-grid">
+    <div class="port-item">
+      <div class="port-bg port-bg-1 room-box" style="height:100%">
+        <svg viewBox="0 0 600 320" class="room-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect width="600" height="320" fill="#2A2018"/>
+          <rect x="0" y="0" width="600" height="220" fill="#3D3020"/>
+          <rect x="50" y="180" width="500" height="100" fill="#1A1610"/>
+          <rect x="100" y="40" width="200" height="160" fill="#4A3C28"/>
+          <rect x="320" y="60" width="150" height="140" fill="#4A3C28" opacity="0.7"/>
+          <rect x="100" y="200" width="500" height="20" fill="#C9A96E" opacity="0.08"/>
+          <rect x="120" y="220" width="360" height="70" fill="#5C4030" rx="3"/>
+          <rect x="200" y="200" width="200" height="24" fill="#3A2A1A" rx="2"/>
+          <circle cx="540" cy="80" r="25" fill="#C9A96E" opacity="0.1"/>
+          <circle cx="540" cy="80" r="15" fill="#C9A96E" opacity="0.15"/>
+        </svg>
+      </div>
+      <div class="port-overlay">
+        <div>
+          <div class="port-sub">Residential</div>
+          <div class="port-label">Modern Living — Adyar</div>
+        </div>
+      </div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg port-bg-2" style="height:100%">
+        <svg viewBox="0 0 300 320" class="room-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="320" fill="#1C2220"/>
+          <rect x="0" y="0" width="300" height="200" fill="#253028"/>
+          <rect x="30" y="20" width="100" height="80" fill="#8B9B7A" opacity="0.3" rx="2"/>
+          <rect x="150" y="30" width="120" height="60" fill="#8B9B7A" opacity="0.2" rx="2"/>
+          <rect x="0" y="200" width="300" height="120" fill="#141C1A"/>
+          <rect x="20" y="210" width="260" height="80" fill="#1E2C28" rx="3"/>
+          <rect x="40" y="195" width="40" height="80" fill="#253028"/>
+          <rect x="220" y="195" width="40" height="80" fill="#253028"/>
+        </svg>
+      </div>
+      <div class="port-overlay">
+        <div>
+          <div class="port-sub">Commercial</div>
+          <div class="port-label">Café Interior — Anna Nagar</div>
+        </div>
+      </div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg port-bg-3" style="height:100%">
+        <svg viewBox="0 0 400 640" class="room-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect width="400" height="640" fill="#201C18"/>
+          <rect x="0" y="0" width="400" height="400" fill="#302820"/>
+          <rect x="40" y="60" width="320" height="280" fill="#3A2E22"/>
+          <rect x="60" y="80" width="120" height="180" fill="#C9A96E" opacity="0.08"/>
+          <rect x="200" y="80" width="140" height="80" fill="#C9A96E" opacity="0.05"/>
+          <rect x="0" y="400" width="400" height="240" fill="#141210"/>
+          <rect x="30" y="430" width="340" height="160" fill="#1E1A16" rx="2"/>
+          <rect x="60" y="410" width="50" height="50" fill="#2A2418" rx="25"/>
+          <rect x="290" y="410" width="50" height="50" fill="#2A2418" rx="25"/>
+        </svg>
+      </div>
+      <div class="port-overlay">
+        <div>
+          <div class="port-sub">Residential</div>
+          <div class="port-label">Master Suite — Velachery</div>
+        </div>
+      </div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg port-bg-4" style="height:100%">
+        <svg viewBox="0 0 300 320" class="room-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect width="300" height="320" fill="#241A14"/>
+          <rect x="0" y="0" width="300" height="180" fill="#3A2618"/>
+          <rect x="20" y="30" width="260" height="120" fill="#4A3220" rx="2"/>
+          <rect x="40" y="45" width="80" height="90" fill="#C9A96E" opacity="0.12"/>
+          <rect x="130" y="45" width="130" height="90" fill="#C9A96E" opacity="0.06"/>
+          <rect x="0" y="180" width="300" height="140" fill="#1A1210"/>
+          <rect x="80" y="200" width="140" height="100" fill="#2A1E16" rx="2"/>
+          <rect x="100" y="190" width="100" height="20" fill="#3A2A1A" rx="10"/>
+        </svg>
+      </div>
+      <div class="port-overlay">
+        <div>
+          <div class="port-sub">Retail</div>
+          <div class="port-label">Bespoke Store — T. Nagar</div>
+        </div>
+      </div>
+    </div>
+    <div class="port-item">
+      <div class="port-bg port-bg-5" style="height:100%">
+        <svg viewBox="0 0 500 320" class="room-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect width="500" height="320" fill="#1A1C20"/>
+          <rect x="0" y="0" width="500" height="200" fill="#252830"/>
+          <rect x="30" y="30" width="440" height="150" fill="#2E3240"/>
+          <rect x="50" y="50" width="150" height="110" fill="#3A3C50" rx="1"/>
+          <rect x="210" y="50" width="100" height="110" fill="#3A3C50" opacity="0.7" rx="1"/>
+          <rect x="320" y="50" width="130" height="110" fill="#3A3C50" opacity="0.5" rx="1"/>
+          <rect x="0" y="200" width="500" height="120" fill="#131518"/>
+          <rect x="50" y="220" width="400" height="70" fill="#1E2025" rx="2"/>
+          <line x1="0" y1="200" x2="500" y2="200" stroke="#C9A96E" stroke-width="1" opacity="0.2"/>
+        </svg>
+      </div>
+      <div class="port-overlay">
+        <div>
+          <div class="port-sub">Residential</div>
+          <div class="port-label">Open Kitchen — OMR</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-header">
+    <span class="section-tag reveal">How We Work</span>
+    <h2 class="section-title reveal">The <em>Process</em></h2>
+  </div>
+  <div class="process-steps">
+    <div class="process-step reveal">
+      <div class="step-dot"><span class="step-dot-num">1</span></div>
+      <div class="step-name">Discover</div>
+      <p class="step-desc">We listen first. Understanding your lifestyle, preferences, and vision before a single line is drawn.</p>
+    </div>
+    <div class="process-step reveal reveal-delay-1">
+      <div class="step-dot"><span class="step-dot-num">2</span></div>
+      <div class="step-name">Design</div>
+      <p class="step-desc">Concepts, mood boards, 3D visualisations. Every idea made tangible before any commitment.</p>
+    </div>
+    <div class="process-step reveal reveal-delay-2">
+      <div class="step-dot"><span class="step-dot-num">3</span></div>
+      <div class="step-name">Execute</div>
+      <p class="step-desc">We manage every vendor, every deadline, every detail — so you don't have to worry about a thing.</p>
+    </div>
+    <div class="process-step reveal reveal-delay-3">
+      <div class="step-dot"><span class="step-dot-num">4</span></div>
+      <div class="step-name">Handover</div>
+      <p class="step-desc">Walk into a home that feels like it was always yours. Because it was — we just helped it become real.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="section-header">
+    <span class="section-tag reveal">Client Stories</span>
+    <h2 class="section-title reveal">What They <em>Say</em></h2>
+  </div>
+  <div class="testimonial-wrap reveal">
+    <div id="testimonial-text" class="testimonial-active">
+      "Priyanka didn't just design our home — she understood our <span class="testimonial-gold">family's rhythm</span> and built spaces around it. Every room tells our story."
+    </div>
+    <div class="testimonial-author" id="testimonial-author">— Meera & Karthik, Adyar</div>
+    <div class="testimonial-dots">
+      <div class="t-dot active" onclick="switchTestimonial(0)"></div>
+      <div class="t-dot" onclick="switchTestimonial(1)"></div>
+      <div class="t-dot" onclick="switchTestimonial(2)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <h2 class="cta-title reveal">
+    Ready to design a home<br>that feels like <em>you?</em>
+  </h2>
+  <p class="cta-sub reveal">
+    Whether you're a first-time buyer or ready for a transformation —
+    let's start with a conversation.
+  </p>
+  <div class="cta-actions reveal">
+    <a href="https://wa.me/919999999999" class="whatsapp-btn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Chat on WhatsApp
+    </a>
+    <a href="mailto:evaraininteriors@gmail.com" class="btn-primary">Send an Email</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">EVARA<span>.</span></div>
+  <div class="footer-links">
+    <a href="https://www.instagram.com/evara.interiors" target="_blank">Instagram</a>
+    <a href="https://www.linkedin.com/in/architect-priyanka-nagaraj" target="_blank">LinkedIn</a>
+    <a href="mailto:evaraininteriors@gmail.com">Email</a>
+  </div>
+  <div class="footer-copy">© 2025 Evara Interiors, Chennai</div>
+</footer>
+
+<script>
+/* CURSOR */
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animateCursor() {
+  cursor.style.transform = `translate(${mx - 5}px, ${my - 5}px)`;
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll('a, button, .port-item, .service-card, .t-dot').forEach(el => {
+  el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+  el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+});
+
+/* NAV SCROLL */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* SCROLL REVEAL */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* TESTIMONIALS */
+const testimonials = [
+  { text: '"Priyanka didn\'t just design our home — she understood our <span class="testimonial-gold">family\'s rhythm</span> and built spaces around it. Every room tells our story."', author: '— Meera & Karthik, Adyar' },
+  { text: '"As a first-time buyer, I was overwhelmed. Evara made the entire process <span class="testimonial-gold">stress-free and beautiful.</span> Best decision we made."', author: '— Ranjani S., Velachery' },
+  { text: '"She listened to everything we wanted — even the things we couldn\'t articulate. The result is a home that is <span class="testimonial-gold">completely, utterly ours.</span>"', author: '— The Krishnamurthy Family, OMR' }
+];
+let currentT = 0;
+function switchTestimonial(i) {
+  currentT = i;
+  const el = document.getElementById('testimonial-text');
+  el.style.opacity = '0'; el.style.transform = 'translateY(10px)';
+  setTimeout(() => {
+    el.innerHTML = testimonials[i].text;
+    document.getElementById('testimonial-author').textContent = testimonials[i].author;
+    el.style.transition = 'opacity 0.5s, transform 0.5s';
+    el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+  }, 300);
+  document.querySelectorAll('.t-dot').forEach((d, j) => d.classList.toggle('active', j === i));
+}
+setInterval(() => switchTestimonial((currentT + 1) % 3), 5000);
+
+/* 3D CANVAS HERO */
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+let W, H, particles = [];
+
+function resize() {
+  W = canvas.width = canvas.offsetWidth;
+  H = canvas.height = canvas.offsetHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * W;
+    this.y = Math.random() * H;
+    this.size = Math.random() * 1.5 + 0.3;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.5 + 0.1;
+    this.color = Math.random() > 0.6 ? '#C9A96E' : '#F5F0E8';
+  }
+  update() {
+    this.x += this.speedX; this.y += this.speedY;
+    if (this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.globalAlpha = this.opacity;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+for (let i = 0; i < 120; i++) particles.push(new Particle());
+
+let mouseX = W / 2, mouseY = H / 2;
+canvas.addEventListener('mousemove', e => {
+  const r = canvas.getBoundingClientRect();
+  mouseX = e.clientX - r.left;
+  mouseY = e.clientY - r.top;
+});
+
+// Grid lines
+function drawGrid() {
+  ctx.strokeStyle = 'rgba(201,169,110,0.04)';
+  ctx.lineWidth = 0.5;
+  const cols = 12, rows = 8;
+  for (let i = 0; i <= cols; i++) {
+    const x = (W / cols) * i;
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let i = 0; i <= rows; i++) {
+    const y = (H / rows) * i;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+}
+
+// Floating golden lines
+let lineOffset = 0;
+function drawLines() {
+  lineOffset += 0.003;
+  for (let i = 0; i < 4; i++) {
+    const y = H * 0.3 + Math.sin(lineOffset + i * 1.5) * H * 0.15 + i * H * 0.12;
+    const grad = ctx.createLinearGradient(0, y, W, y);
+    grad.addColorStop(0, 'transparent');
+    grad.addColorStop(0.3, `rgba(201,169,110,${0.04 - i * 0.008})`);
+    grad.addColorStop(0.7, `rgba(201,169,110,${0.06 - i * 0.01})`);
+    grad.addColorStop(1, 'transparent');
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    for (let x = 0; x <= W; x += 4) {
+      const waveY = y + Math.sin(x * 0.008 + lineOffset * 2 + i) * 20;
+      ctx.lineTo(x, waveY);
+    }
+    ctx.stroke();
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, W, H);
+  drawGrid();
+  drawLines();
+  // Connect close particles
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 100) {
+        ctx.strokeStyle = `rgba(201,169,110,${0.08 * (1 - dist / 100)})`;
+        ctx.lineWidth = 0.4;
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animate);
+}
+animate();
+
+/* COUNT UP ANIMATION */
+const countEls = document.querySelectorAll('[data-count]');
+const countObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const el = entry.target;
+      const target = parseInt(el.dataset.count);
+      let current = 0;
+      const inc = target / 60;
+      const timer = setInterval(() => {
+        current = Math.min(current + inc, target);
+        el.textContent = Math.floor(current) + '+';
+        if (current >= target) clearInterval(timer);
+      }, 16);
+      countObserver.unobserve(el);
+    }
+  });
+}, { threshold: 0.5 });
+countEls.forEach(el => countObserver.observe(el));
+</script>
+</body>
+</html>

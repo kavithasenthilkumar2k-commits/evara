@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Projects — EVARA Admin</title>
+  <link rel="stylesheet" href="../css/portal.css" />
+  <link rel="icon" type="image/png" href="../../../images/logo/evara-logo.png">
+</head>
+<body>
+
+<div id="toast"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="portal-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <a href="https://www.evarainteriors.in" target="_blank" class="sidebar-logo" style="text-decoration:none; display:block;">
+  <div class="sidebar-logo-name">EVARA INTERIORS</div>
+  <div class="sidebar-logo-tag">Admin Panel</div>
+</a>
+    <div class="sidebar-user">
+      <div class="sidebar-user-name">Ar. Priyanka Nagarajan</div>
+      <div class="sidebar-user-role">Admin</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" href="dashboard.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        All Projects
+      </a>
+      <a class="nav-item" href="analytics.html">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Analytics
+      </a>
+      <a class="nav-item" href="add-client.html">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        Add Client
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="signout-btn" id="signoutBtn">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" id="menuBtn">
+          <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <span class="topbar-title">All Projects</span>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-meta" id="topbarDate"></span>
+        <span class="topbar-meta" id="activeCount" style="color:var(--teal); font-weight:500;"></span>
+      </div>
+    </div>
+
+    <div class="page-body">
+
+      <!-- SEARCH + ADD -->
+      <div style="display:flex; gap:12px; margin-bottom:16px; align-items:center;">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="searchInput" placeholder="Search by client name or project..." />
+        </div>
+        
+      </div>
+
+      <!-- FILTER TABS -->
+      <!-- Desktop tabs (hidden on mobile) -->
+<div id="filter-tabs" style="display:flex; gap:4px; margin-bottom:16px; border-bottom:1px solid var(--border); padding-bottom:0;">
+  <button class="filter-tab active" data-filter="all" onclick="setFilter('all',this)">All</button>
+  <button class="filter-tab" data-filter="Planning" onclick="setFilter('Planning',this)">Design Phase</button>
+  <button class="filter-tab" data-filter="In Progress" onclick="setFilter('In Progress',this)">Site Progress</button>
+  <button class="filter-tab" data-filter="Completed" onclick="setFilter('Completed',this)">Completed</button>
+</div>
+
+<!-- Mobile dropdown (hidden on desktop) -->
+<div id="filter-dropdown" style="display:none; margin-bottom:16px;">
+  <div style="position:relative;">
+    <select onchange="setFilterMobile(this.value)" style="width:100%; padding:9px 36px 9px 14px; border:1px solid var(--border); border-radius:6px; background:#fff; font-family:'DM Sans',sans-serif; font-size:13px; color:var(--dark); appearance:none; cursor:pointer; outline:none;">
+      <option value="all">All</option>
+      <option value="Planning">Design Phase</option>
+      <option value="In Progress">Site Progress</option>
+      <option value="Completed">Completed</option>
+    </select>
+    <span style="position:absolute; right:12px; top:50%; transform:translateY(-50%); pointer-events:none; color:#8C8480;">▾</span>
+  </div>
+</div>
+
+      <div class="section-label" style="margin-bottom:12px;">Sorted by last edited</div>
+
+      <!-- CLIENT LIST -->
+      <div id="clientList">
+        <div class="empty-state">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div class="empty-state-text">Loading clients...</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- EDIT CLIENT MODAL -->
+<div class="modal-overlay" id="modal-editclient">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('editclient')">&times;</button>
+    <div class="modal-title">Edit Client Details</div>
+    <div class="form-group">
+      <label class="form-label">Client Name *</label>
+      <input class="form-input" id="edit_displayName" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Phone</label>
+      <input class="form-input" id="edit_phone" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" type="email" id="edit_email" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Project Name *</label>
+      <input class="form-input" id="edit_projectName" autocomplete="off" />
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label class="form-label">Property Type</label>
+        <select class="form-select" id="edit_propertyType">
+          <option>Apartment 2BHK</option>
+          <option>Apartment 3BHK</option>
+          <option>Apartment 4BHK+</option>
+          <option>Commercial</option>
+          <option>Independent House</option>
+          <option>Residential Villa</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Location</label>
+        <input class="form-input" id="edit_location" autocomplete="off" />
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label class="form-label">Total Budget (₹)</label>
+        <input class="form-input" type="number" id="edit_totalBudget" autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Start Date</label>
+        <input class="form-input" type="date" id="edit_startDate" autocomplete="off" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Project Status</label>
+      <select class="form-select" id="edit_projectStatus">
+        <option value="Planning">Design Phase</option>
+        <option value="In Progress">Site Progress</option>
+        <option value="Completed">Completed</option>
+      </select>
+    </div>
+    <div id="editClientError" style="color:#C62828;font-size:12px;margin-bottom:10px;display:none;"></div>
+    <button class="btn btn-primary" onclick="saveEditClient()" style="width:100%;">Save Changes</button>
+  </div>
+</div>
+
+<style>
+  .filter-tab {
+    padding: 8px 16px;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    margin-bottom: -1px;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .filter-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+  .filter-tab:hover { color: var(--dark); }
+  .edit-pencil-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: border-color 0.15s, background 0.15s;
+}
+.edit-pencil-btn:hover {
+  border-color: var(--teal);
+  background: var(--teal-light);
+}
+.edit-pencil-btn svg {
+  width: 14px; height: 14px;
+  stroke: var(--text-muted);
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.edit-pencil-btn:hover svg { stroke: var(--teal); }
+@media (min-width: 769px) {
+  .edit-pencil-btn {
+    top: 8px;
+  }
+}
+  @media (max-width: 768px) {
+  .client-card {
+    flex-wrap: wrap !important;
+    padding: 14px !important;
+    gap: 10px !important;
+  }
+
+  .client-avatar {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 15px !important;
+    flex-shrink: 0 !important;
+    align-self: flex-start !important;
+  }
+
+  .client-info {
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .client-name {
+    font-size: 14px !important;
+    white-space: normal !important;
+  }
+
+  .client-sub  { font-size: 11px !important; }
+  .client-last { font-size: 10px !important; }
+
+  .client-right {
+    width: 100% !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding-top: 10px !important;
+    border-top: 1px solid var(--border) !important;
+    margin-left: 0 !important;
+}
+  .chevron-icon { display: none !important; }
+}
+@media (max-width: 768px) {
+  #filter-tabs { display: none !important; }
+  #filter-dropdown { display: block !important; }
+}
+</style>
+
+<script type="module">
+import { auth, db } from '../js/firebase.js';
+import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { collection, query, orderBy, onSnapshot, doc, getDoc, updateDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+// ── AUTH GUARD ──
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { window.location.href = '../index.html'; return; }
+  const adminDoc = await getDoc(doc(db, 'admins', user.uid));
+  if (!adminDoc.exists()) { window.location.href = '../index.html'; return; }
+  init();
+});
+
+// ── DATE ──
+document.getElementById('topbarDate').textContent =
+  new Date().toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'long', year:'numeric' });
+
+// ── MOBILE SIDEBAR ──
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+});
+document.getElementById('sidebarOverlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+});
+
+// ── SIGN OUT ──
+document.getElementById('signoutBtn').addEventListener('click', async () => {
+  await signOut(auth);
+  window.location.href = '../index.html';
+});
+
+// ── DATA ──
+let allClients = [];
+let currentFilter = 'all';
+
+function init() {
+  const q = query(collection(db, 'clients'), orderBy('lastEdited', 'desc'));
+  onSnapshot(q, (snap) => {
+    allClients = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderClients();
+  });
+}
+
+function displayStatus(status) {
+  const map = {
+    'Planning': 'Design Phase',
+    'In Progress': 'Site Progress',
+    'Completed': 'Completed'
+  };
+  return map[status] || status;
+}
+
+function renderClients() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  let filtered = allClients.filter(c => {
+    const matchSearch = !search ||
+      (c.displayName || '').toLowerCase().includes(search) ||
+      (c.projectName || '').toLowerCase().includes(search);
+    const matchFilter = currentFilter === 'all' || c.projectStatus === currentFilter;
+    return matchSearch && matchFilter;
+  });
+
+  const active = allClients.filter(c => c.projectStatus !== 'Completed').length;
+  document.getElementById('activeCount').textContent = active + ' active';
+
+  const list = document.getElementById('clientList');
+  if (!filtered.length) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <div class="empty-state-text">No clients found</div>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(c => {
+    const initials = (c.displayName || 'C').split(' ').filter(w => /^[A-Za-z]/.test(w)).map(w => w[0]).join('').slice(0,2).toUpperCase();
+    const stage = c.currentStage || 1;
+    const status = c.projectStatus || 'Planning';
+    const badgeClass = status === 'Completed' ? 'badge-completed' : status === 'In Progress' ? 'badge-progress' : 'badge-planning';
+    const lastEdited = c.lastEdited ? timeAgo(c.lastEdited.toDate()) : '—';
+    const progress = Math.round(((stage - 1) / 5) * 100);
+
+    return `
+      <a class="client-card" href="project-control.html?clientId=${c.id}" style="position:relative;">
+        <button class="edit-pencil-btn" onclick="event.preventDefault(); event.stopPropagation(); openEditClientModal('${c.id}')" title="Edit client">
+          <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <div class="client-avatar">${initials}</div>
+        <div class="client-info">
+          <div class="client-name">${c.displayName || 'Unnamed Client'}</div>
+          <div class="client-sub">${c.projectName || '—'} · ${c.propertyType || '—'}</div>
+          <div class="client-last">Last edited: ${lastEdited}</div>
+        </div>
+        <div class="client-right">
+          <span class="badge ${badgeClass}">${displayStatus(status)}</span>
+          <div>
+            <div class="progress-bar"><div class="progress-fill" style="width:${progress}%"></div></div>
+            <div style="font-size:9px; color:var(--text-muted); text-align:right; margin-top:2px;">Step ${stage} of 6</div>
+          </div>
+        </div>
+        <svg class="chevron-icon" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>`;
+  }).join('');
+}
+
+window.setFilter = function(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderClients();
+};
+
+document.getElementById('searchInput').addEventListener('input', renderClients);
+
+function timeAgo(date) {
+  const diff = Math.floor((Date.now() - date) / 1000);
+  if (diff < 60)    return 'just now';
+  if (diff < 3600)  return Math.floor(diff/60) + ' mins ago';
+  if (diff < 86400) return Math.floor(diff/3600) + ' hrs ago';
+  if (diff < 604800) return Math.floor(diff/86400) + ' days ago';
+  return date.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+}
+window.setFilterMobile = function(value) {
+  currentFilter = value;
+  renderClients();
+};
+/* ── Disable browser back/forward ── */
+history.pushState(null, '', location.href);
+window.addEventListener('popstate', () => {
+  history.go(1); // cancel the back navigation by going forward again
+});
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) {
+    window.location.reload();
+  }
+});
+  
+
+window.openEditClientModal = function(clientId) {
+  const c = allClients.find(x => x.id === clientId);
+  if (!c) return;
+  window._editingClientId = clientId;
+  document.getElementById('edit_displayName').value   = c.displayName || '';
+  document.getElementById('edit_phone').value         = c.phone || '';
+  document.getElementById('edit_email').value         = c.email || '';
+  document.getElementById('edit_projectName').value   = c.projectName || '';
+  document.getElementById('edit_propertyType').value  = c.propertyType || '';
+  document.getElementById('edit_location').value      = c.location || '';
+  document.getElementById('edit_totalBudget').value   = c.totalBudget || '';
+  document.getElementById('edit_startDate').value     = c.startDate || '';
+  document.getElementById('edit_projectStatus').value = c.projectStatus || 'Planning';
+  document.getElementById('editClientError').style.display = 'none';
+  document.getElementById('modal-editclient').classList.add('open');
+};
+
+window.closeModal = function(name) {
+  document.getElementById('modal-' + name).classList.remove('open');
+};
+
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+window.saveEditClient = async function() {
+  const id = window._editingClientId;
+  if (!id) return;
+  const displayName  = document.getElementById('edit_displayName').value.trim();
+  const projectName  = document.getElementById('edit_projectName').value.trim();
+  const errEl = document.getElementById('editClientError');
+  if (!displayName || !projectName) {
+    errEl.textContent = 'Client Name and Project Name are required';
+    errEl.style.display = 'block';
+    return;
+  }
+  await updateDoc(doc(db, 'clients', id), {
+    displayName,
+    phone: document.getElementById('edit_phone').value.trim(),
+    email: document.getElementById('edit_email').value.trim(),
+    projectName,
+    propertyType: document.getElementById('edit_propertyType').value,
+    location: document.getElementById('edit_location').value.trim(),
+    totalBudget: Number(document.getElementById('edit_totalBudget').value) || 0,
+    startDate: document.getElementById('edit_startDate').value,
+    projectStatus: document.getElementById('edit_projectStatus').value,
+    lastEdited: serverTimestamp()
+  });
+  document.getElementById('modal-editclient').classList.remove('open');
+};
+</script>
+
+</body>
+</html>

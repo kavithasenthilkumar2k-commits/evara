@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Projects — Evara Interiors Chennai</title>
+  <meta name="description" content="Explore Evara Interiors portfolio — foyer, modular kitchen, office, bedroom, wardrobe, bar and more interior design projects in Chennai." />
+  <link rel="icon" type="image/png" href="../images/logo/evara-logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    /* PAGE LAYOUT */
+    .projects-page {
+      padding: 120px 5% 60px;
+      background: #FAF8F4;
+      min-height: 100vh;
+    }
+    .projects-page-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #2A7C6F;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid #2A7C6F;
+      padding-bottom: 2px;
+    }
+
+    /* PROJECT GRID */
+    .projects-page-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1100px;
+      margin: 0 auto 60px;
+    }
+    .proj-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+      aspect-ratio: 4/3;
+      display: block;
+      text-decoration: none;
+    }
+    .proj-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .proj-card:hover img { transform: scale(1.05); }
+    .proj-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(20,16,12,0.45);
+      display: flex;
+      align-items: flex-end;
+      padding: 20px 16px;
+      transition: background 0.3s;
+    }
+    .proj-card:hover .proj-card-overlay { background: rgba(20,16,12,0.62); }
+    .proj-card-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: #FAF8F4;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .proj-card-coming {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(26,143,143,0.9);
+      color: white;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      padding: 3px 8px;
+      text-transform: uppercase;
+    }
+
+    /* MOBILE NAV FIX */
+    .mobile-cta-btn { display: none !important; }
+
+    /* MOBILE GRID */
+    @media (max-width: 768px) {
+      .projects-page { padding: 90px 4% 40px; }
+      .projects-page-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .proj-card-name { font-size: 1rem; }
+    }
+    @media (max-width: 420px) {
+      .projects-page-grid { grid-template-columns: 1fr; }
+      .proj-card-name { font-size: 1.2rem; }
+    }
+
+    /* POPUP */
+    .popup-tag {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--teal, #1A8F8F);
+      margin-bottom: 8px;
+    }
+    .popup-form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .popup-form-row .popup-form-group { margin-bottom: 0; }
+    @media (max-width: 520px) {
+      .popup-form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+  .phone-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .phone-row select {
+    flex: 0 0 auto;
+    width: 110px;
+  }
+
+  .phone-row input {
+    flex: 1;
+    min-width: 0;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <div id="shared-navbar"></div>
+  <script>
+    fetch('../navbar.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('shared-navbar').innerHTML = html;
+      });
+  </script>
+
+  <!-- MAIN CONTENT -->
+  <main class="projects-page">
+    <a href="../index.html" class="back-btn">← Back to Home</a>
+    <div class="projects-page-header">
+      
+      <h1 class="section-title">Our <em>Projects</em></h1>
+    </div>
+
+    <div class="projects-page-grid">
+
+      <a class="proj-card" href="foyer.html">
+        <img src="../images/portfolio/foyer/1.png" alt="Foyer Design — Evara Interiors" />
+        <div class="proj-card-overlay">
+          <div class="proj-card-name">Foyer</div>
+        </div>
+      </a>
+
+      <a class="proj-card" href="modular-kitchen.html">
+        <img src="../images/portfolio/modular-kitchen/1.jpg" alt="Modular Kitchen — Evara Interiors" />
+        <div class="proj-card-overlay">
+          <div class="proj-card-name">Modular Kitchen</div>
+        </div>
+      </a>
+
+      <a class="proj-card" href="office.html">
+        <img src="../images/portfolio/office/1.jpg" alt="Office Interior — Evara Interiors" />
+        <div class="proj-card-overlay">
+          <div class="proj-card-name">Office</div>
+        </div>
+      </a>
+
+      <a class="proj-card" href="kids-bedroom.html">
+        <img src="../images/portfolio/kids-bedroom/1.png" alt="Kids Bedroom — Evara Interiors" />
+        <div class="proj-card-overlay">
+          <div class="proj-card-name">Kids Bedroom</div>
+        </div>
+      </a>
+
+      <a class="proj-card" href="wardrobe.html">
+        <img src="../images/portfolio/wardrobe/1.png" alt="Wardrobe Design — Evara Interiors" />
+        <div class="proj-card-overlay">
+          <div class="proj-card-name">Wardrobe</div>
+        </div>
+      </a>
+
+      <a class="proj-card" href="bedroom.html">
+        <img src="../images/portfolio/bedroom/1.jpg" alt="Bedroom Design — Evara Interiors" />
+        <div class="proj-card-overlay">
+          <div class="proj-card-name">Bedroom</div>
+        </div>
+      </a>
+
+      <a class="proj-card" href="bar.html">
+        <img src="../images/portfolio/bar/1.png" alt="Bar Design — Evara Interiors" />
+        <div class="proj-card-overlay">
+          <div class="proj-card-name">Bar</div>
+        </div>
+      </a>
+
+      <a class="proj-card" href="living-room.html">
+        <img src="../images/portfolio/living-room/1.jpg" alt="Living Room — Evara Interiors" />
+        <div class="proj-card-overlay">
+          <div class="proj-card-name">Living Room</div>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <div id="shared-footer"></div>
+  <script>
+    fetch('../footer.html')
+      .then(r => r.text())
+      .then(html => {
+        document.getElementById('shared-footer').innerHTML = html;
+      });
+  </script>
+
+  <!-- CONSULTATION POPUP -->
+  <div id="consultationPopup" class="consultation-popup-overlay">
+    <div class="consultation-popup-modal">
+      <button class="popup-close-btn" onclick="closeConsultationPopup()" aria-label="Close">&times;</button>
+      <p class="popup-tag">GET IN TOUCH</p>
+      <h3 class="popup-title">Book a Free Consultation</h3>
+      <form class="popup-form" id="popupConsultationForm">
+        <div class="popup-form-row">
+          <div class="popup-form-group">
+            <label>YOUR NAME *</label>
+            <input type="text" id="popupName" name="name" placeholder="Eg. Priya Sharma" required pattern="[A-Za-z ]+" oninput="this.value=this.value.replace(/[^A-Za-z ]/g,'')" autocomplete="name" />
+          </div>
+          <div class="popup-form-group">
+            <label>PHONE NUMBER *</label>
+            <input type="tel" id="popupPhone" name="phone" placeholder="+91 98765 43210" required />
+          </div>
+        </div>
+        <div class="popup-form-group">
+          <label>EMAIL ADDRESS *</label>
+          <input type="email" id="popupEmail" name="email" placeholder="you@email.com" required />
+        </div>
+        <div class="popup-form-row">
+          <div class="popup-form-group">
+            <label>PROPERTY LOCATION *</label>
+            <select id="fLocation" required>
+  <option value="" disabled selected hidden>Select location</option>
+  <option value="Chennai">Chennai</option>
+  <option value="Outside Chennai">Outside Chennai</option>
+</select>
+          </div>
+          <div class="popup-form-group">
+            <label>PROPERTY TYPE *</label>
+            <select id="fType" required>
+  <option value="" disabled selected hidden>Select type</option>
+  <option value="Apartment 2BHK">Apartment 2BHK</option>
+  <option value="Apartment 3BHK">Apartment 3BHK</option>
+  <option value="Apartment 4BHK+">Apartment 4BHK+</option>
+  <option value="Commercial">Commercial</option>
+  <option value="Independent Residential">Independent Residential</option>
+  <option value="Villa">Villa</option>
+</select>
+          </div>
+        </div>
+        <input type="text" name="_gotcha" style="display:none" />
+        <button type="submit" class="btn-primary popup-submit-btn">Send Enquiry</button>
+        <div style="display:flex; align-items:center; gap:10px; margin-top:12px;">
+          <input type="checkbox" id="popup-updates" name="updates"
+            style="width:16px; height:16px; cursor:pointer; accent-color:#2A7C6F;" />
+          <label for="popup-updates" style="font-family:'DM Sans',sans-serif;
+            font-size:0.85rem; color:#1C1916; cursor:pointer;">
+            Send me updates on Email & WhatsApp
+          </label>
+        </div>
+        <p class="popup-terms">By submitting, you agree to our
+          <a href="../terms.html" target="_blank">Terms & Conditions</a>
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <script src="../script.js"></script>
+  
+    // Navbar scroll
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Hamburger
+    
+
+    document.addEventListener('click', (e) => {
+      if (navLinks.classList.contains('open') &&
+          !navLinks.contains(e.target) &&
+          !hamburger.contains(e.target)) {
+        navLinks.classList.remove('open');
+      }
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+      
+
+        // Popup
+    function openConsultationPopup(e) {
+      if (e) e.preventDefault();
+      document.getElementById('consultationPopup').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeConsultationPopup() {
+      document.getElementById('consultationPopup').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('consultationPopup').addEventListener('click', function(e) {
+      if (e.target === this) closeConsultationPopup();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeConsultationPopup();
+    });
+
+    // Popup form submit
+    const popupForm = document.getElementById('popupConsultationForm');
+    if (popupForm) {
+      popupForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const payload = {
+          "Timestamp": new Date().toLocaleString('en-IN'),
+          "Name": document.getElementById('popupName')?.value || '',
+          "Phone": document.getElementById('popupPhone')?.value || '',
+          "Email": document.getElementById('popupEmail')?.value || '',
+          "WhatsApp Number": '',
+          "Property Location": document.getElementById('popupLocation')?.value || '',
+          "Property Type": document.getElementById('popupPropertyType')?.value || '',
+          "Source": "Popup Form — Projects Page"
+        };
+        fetch('https://corsproxy.io/?' + encodeURIComponent('https://hook.eu1.make.com/qi8o4y1zdt79iaqgmpekp9mc1nf2h4ou'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(() => {
+          closeConsultationPopup();
+          alert('Thank you! We will get back to you soon.');
+          popupForm.reset();
+        }).catch(() => {
+          alert('Thank you! We will get back to you soon.');
+          popupForm.reset();
+        });
+      });
+    }
+  </script>
+</body>
+</html>

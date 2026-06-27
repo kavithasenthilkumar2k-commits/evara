@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Client — EVARA Admin</title>
+  <link rel="stylesheet" href="../css/portal.css" />
+  <link rel="icon" type="image/png" href="../../../images/logo/evara-logo.png">
+</head>
+<body>
+
+<div id="toast"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="portal-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <a href="https://www.evarainteriors.in" target="_blank" class="sidebar-logo" style="text-decoration:none; display:block;">
+  <div class="sidebar-logo-name">EVARA INTERIORS</div>
+  <div class="sidebar-logo-tag">Admin Panel</div>
+</a>
+    <div class="sidebar-user">
+      <div class="sidebar-user-name">Ar. Priyanka Nagarajan</div>
+      <div class="sidebar-user-role">Admin</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item" href="dashboard.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        All Projects
+      </a>
+      <a class="nav-item" href="analytics.html">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Analytics
+      </a>
+      <a class="nav-item active" href="add-client.html">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        Add Client
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="signout-btn" id="signoutBtn">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" id="menuBtn">
+          <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <a class="topbar-back" href="dashboard.html">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+          All Projects
+        </a>
+        <span class="topbar-title">Add New Client</span>
+      </div>
+    </div>
+
+    <div class="page-body">
+
+      <!-- CLIENT DETAILS -->
+      <div class="card">
+        <div class="card-title">Client Details</div>
+        <div class="form-group">
+          <label class="form-label">Client Name (as shown in portal) *</label>
+          <input class="form-input" type="text" id="displayName" placeholder="Eg. Mr. Rajesh & Ms. Priya" autocomplete="off"/>
+          <div class="form-hint">Type exactly how you want the name to appear</div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label" style="white-space:nowrap;">Client Email (used as username) *</label>
+            <input class="form-input" type="email" id="clientEmail" placeholder="client@email.com" autocomplete="new-password" name="client-email-field" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Client Phone</label>
+            <div style="display:flex; gap:8px;">
+              <select class="form-select" id="phoneCountryCode" style="flex:0 0 110px; padding:10px 8px;">
+                #phoneCountryCode {
+  font-size: 13px;
+  font-weight: 500;
+}
+                <option value="+93">AF +93</option>
+<option value="+355">AL +355</option>
+<option value="+213">DZ +213</option>
+<option value="+376">AD +376</option>
+<option value="+244">AO +244</option>
+<option value="+1268">AG +1268</option>
+<option value="+54">AR +54</option>
+<option value="+374">AM +374</option>
+<option value="+61">AU +61</option>
+<option value="+43">AT +43</option>
+<option value="+994">AZ +994</option>
+<option value="+1242">BS +1242</option>
+<option value="+973">BH +973</option>
+<option value="+880">BD +880</option>
+<option value="+1246">BB +1246</option>
+<option value="+375">BY +375</option>
+<option value="+32">BE +32</option>
+<option value="+501">BZ +501</option>
+<option value="+229">BJ +229</option>
+<option value="+975">BT +975</option>
+<option value="+591">BO +591</option>
+<option value="+387">BA +387</option>
+<option value="+267">BW +267</option>
+<option value="+55">BR +55</option>
+<option value="+673">BN +673</option>
+<option value="+359">BG +359</option>
+<option value="+226">BF +226</option>
+<option value="+257">BI +257</option>
+<option value="+238">CV +238</option>
+<option value="+855">KH +855</option>
+<option value="+237">CM +237</option>
+<option value="+1">CA +1</option>
+<option value="+236">CF +236</option>
+<option value="+235">TD +235</option>
+<option value="+56">CL +56</option>
+<option value="+86">CN +86</option>
+<option value="+57">CO +57</option>
+<option value="+269">KM +269</option>
+<option value="+242">CG +242</option>
+<option value="+243">CD +243</option>
+<option value="+506">CR +506</option>
+<option value="+385">HR +385</option>
+<option value="+53">CU +53</option>
+<option value="+357">CY +357</option>
+<option value="+420">CZ +420</option>
+<option value="+45">DK +45</option>
+<option value="+253">DJ +253</option>
+<option value="+1767">DM +1767</option>
+<option value="+1809">DO +1809</option>
+<option value="+593">EC +593</option>
+<option value="+20">EG +20</option>
+<option value="+503">SV +503</option>
+<option value="+240">GQ +240</option>
+<option value="+291">ER +291</option>
+<option value="+372">EE +372</option>
+<option value="+268">SZ +268</option>
+<option value="+251">ET +251</option>
+<option value="+679">FJ +679</option>
+<option value="+358">FI +358</option>
+<option value="+33">FR +33</option>
+<option value="+241">GA +241</option>
+<option value="+220">GM +220</option>
+<option value="+995">GE +995</option>
+<option value="+49">DE +49</option>
+<option value="+233">GH +233</option>
+<option value="+30">GR +30</option>
+<option value="+1473">GD +1473</option>
+<option value="+502">GT +502</option>
+<option value="+224">GN +224</option>
+<option value="+245">GW +245</option>
+<option value="+592">GY +592</option>
+<option value="+509">HT +509</option>
+<option value="+504">HN +504</option>
+<option value="+852">HK +852</option>
+<option value="+36">HU +36</option>
+<option value="+354">IS +354</option>
+<option value="+91" selected>IN +91</option>
+<option value="+62">ID +62</option>
+<option value="+98">IR +98</option>
+<option value="+964">IQ +964</option>
+<option value="+353">IE +353</option>
+<option value="+972">IL +972</option>
+<option value="+39">IT +39</option>
+<option value="+1876">JM +1876</option>
+<option value="+81">JP +81</option>
+<option value="+962">JO +962</option>
+<option value="+7">KZ +7</option>
+<option value="+254">KE +254</option>
+<option value="+686">KI +686</option>
+<option value="+850">KP +850</option>
+<option value="+82">KR +82</option>
+<option value="+383">XK +383</option>
+<option value="+965">KW +965</option>
+<option value="+996">KG +996</option>
+<option value="+856">LA +856</option>
+<option value="+371">LV +371</option>
+<option value="+961">LB +961</option>
+<option value="+266">LS +266</option>
+<option value="+231">LR +231</option>
+<option value="+218">LY +218</option>
+<option value="+423">LI +423</option>
+<option value="+370">LT +370</option>
+<option value="+352">LU +352</option>
+<option value="+853">MO +853</option>
+<option value="+261">MG +261</option>
+<option value="+265">MW +265</option>
+<option value="+60">MY +60</option>
+<option value="+960">MV +960</option>
+<option value="+223">ML +223</option>
+<option value="+356">MT +356</option>
+<option value="+692">MH +692</option>
+<option value="+222">MR +222</option>
+<option value="+230">MU +230</option>
+<option value="+52">MX +52</option>
+<option value="+691">FM +691</option>
+<option value="+373">MD +373</option>
+<option value="+377">MC +377</option>
+<option value="+976">MN +976</option>
+<option value="+382">ME +382</option>
+<option value="+212">MA +212</option>
+<option value="+258">MZ +258</option>
+<option value="+95">MM +95</option>
+<option value="+264">NA +264</option>
+<option value="+674">NR +674</option>
+<option value="+977">NP +977</option>
+<option value="+31">NL +31</option>
+<option value="+64">NZ +64</option>
+<option value="+505">NI +505</option>
+<option value="+227">NE +227</option>
+<option value="+234">NG +234</option>
+<option value="+389">MK +389</option>
+<option value="+47">NO +47</option>
+<option value="+968">OM +968</option>
+<option value="+92">PK +92</option>
+<option value="+680">PW +680</option>
+<option value="+970">PS +970</option>
+<option value="+507">PA +507</option>
+<option value="+675">PG +675</option>
+<option value="+595">PY +595</option>
+<option value="+51">PE +51</option>
+<option value="+63">PH +63</option>
+<option value="+48">PL +48</option>
+<option value="+351">PT +351</option>
+<option value="+974">QA +974</option>
+<option value="+40">RO +40</option>
+<option value="+7">RU +7</option>
+<option value="+250">RW +250</option>
+<option value="+1869">KN +1869</option>
+<option value="+1758">LC +1758</option>
+<option value="+1784">VC +1784</option>
+<option value="+685">WS +685</option>
+<option value="+378">SM +378</option>
+<option value="+239">ST +239</option>
+<option value="+966">SA +966</option>
+<option value="+221">SN +221</option>
+<option value="+381">RS +381</option>
+<option value="+248">SC +248</option>
+<option value="+232">SL +232</option>
+<option value="+65">SG +65</option>
+<option value="+421">SK +421</option>
+<option value="+386">SI +386</option>
+<option value="+677">SB +677</option>
+<option value="+252">SO +252</option>
+<option value="+27">ZA +27</option>
+<option value="+211">SS +211</option>
+<option value="+34">ES +34</option>
+<option value="+94">LK +94</option>
+<option value="+249">SD +249</option>
+<option value="+597">SR +597</option>
+<option value="+46">SE +46</option>
+<option value="+41">CH +41</option>
+<option value="+963">SY +963</option>
+<option value="+886">TW +886</option>
+<option value="+992">TJ +992</option>
+<option value="+255">TZ +255</option>
+<option value="+66">TH +66</option>
+<option value="+670">TL +670</option>
+<option value="+228">TG +228</option>
+<option value="+676">TO +676</option>
+<option value="+1868">TT +1868</option>
+<option value="+216">TN +216</option>
+<option value="+90">TR +90</option>
+<option value="+993">TM +993</option>
+<option value="+688">TV +688</option>
+<option value="+971">AE +971</option>
+<option value="+256">UG +256</option>
+<option value="+380">UA +380</option>
+<option value="+44">GB +44</option>
+<option value="+1">US +1</option>
+<option value="+598">UY +598</option>
+<option value="+998">UZ +998</option>
+<option value="+678">VU +678</option>
+<option value="+58">VE +58</option>
+<option value="+84">VN +84</option>
+<option value="+967">YE +967</option>
+<option value="+260">ZM +260</option>
+<option value="+263">ZW +263</option>
+              </select>
+              <input class="form-input" type="tel" id="clientPhone" placeholder="98765 43210" autocomplete="off" inputmode="numeric" maxlength="12"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT DETAILS -->
+      <div class="card">
+        <div class="card-title">Project Details</div>
+        <div class="form-group">
+          <label class="form-label">Project Name *</label>
+          <input class="form-input" type="text" id="projectName" placeholder="Eg. ECR Villa" autocomplete="off"/>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Property Type *</label>
+             <select class="form-select" id="propertyType">
+              
+<option value="Apartment 2BHK">Apartment 2BHK</option>
+<option value="Apartment 3BHK">Apartment 3BHK</option>
+<option value="Apartment 4BHK+">Apartment 4BHK+</option>
+<option value="Commercial">Commercial</option>
+<option value="Independent Residential">Independent Residential</option>
+<option value="Villa">Villa</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Project Location</label>
+            <input class="form-input" type="text" id="location" placeholder="Eg. ECR, Chennai" autocomplete="off"/>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Total Project Budget (₹)</label>
+            <input class="form-input" type="number" id="totalBudget" placeholder="Eg. 50000" min="50000" step="50000" autocomplete="off"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Start Date</label>
+            <input class="form-input" type="date" id="startDate" autocomplete="off"/>
+          </div>
+        </div>
+      </div>
+
+      <!-- CREDENTIALS -->
+      <div class="card" id="credentialsCard" style="display:none;">
+        <div class="card-title">Portal Login Credentials</div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label class="form-label">Username (auto — client's email)</label>
+            <input class="form-input" type="text" id="usernameDisplay" placeholder="Fills from email above" readonly style="color:var(--text-muted);" autocomplete="off"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password *</label>
+            <div style="position:relative;">
+              <input class="form-input" type="password" id="clientPassword" placeholder="Auto-generated" style="padding-right:76px;" autocomplete="off"/>
+              <button type="button" onclick="regeneratePassword()" title="Generate new password" style="position:absolute;right:38px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-muted);padding:2px;display:flex;align-items:center;">
+                <svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+              </button>
+              <button type="button" id="togglePassBtn" onclick="togglePass()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-muted);padding:2px;display:flex;align-items:center;">
+                <svg id="eyeOpenAC" viewBox="0 0 24 24" style="width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg id="eyeClosedAC" viewBox="0 0 24 24" style="width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+            <div class="form-hint">Auto-generated — editable. Share with the client via WhatsApp.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CREDENTIALS PREVIEW -->
+      <div class="info-box teal" id="credsPreview" style="display:none; flex-direction:column; gap:8px;">
+        <div style="font-size:10px; font-weight:500; letter-spacing:0.12em; text-transform:uppercase; color:#0D4F4F; margin-bottom:4px;">Credentials to share on WhatsApp</div>
+        <div style="font-size:12px; line-height:2;">
+          <strong>Portal:</strong> portal.evarainteriors.in<br>
+          <strong>Username:</strong> <span id="previewEmail">—</span><br>
+          <strong>Password:</strong> <span id="previewPass">—</span>
+        </div>
+      </div>
+
+      <!-- WHATSAPP NOTE -->
+      <div class="info-box warn">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.92a16 16 0 0 0 6 6l.43-.25a2 2 0 0 1 2.11.44c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        After creating the client portal, send the credentials to the client manually via WhatsApp. The portal does not send any automated messages.
+      </div>
+
+      <!-- BUTTONS -->
+      <div style="display:flex; gap:12px; margin-top:4px;">
+        <button class="btn btn-primary" id="createBtn">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Save Client
+        </button>
+        <a href="dashboard.html" class="btn btn-ghost">Cancel</a>
+      </div>
+
+      <div id="formError" style="color:#C62828; font-size:12px; margin-top:12px; display:none;"></div>
+
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { auth, db } from '../js/firebase.js';
+import { createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { doc, setDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { getDoc } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+// AUTH GUARD
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { window.location.href = '../index.html'; return; }
+  const adminDoc = await getDoc(doc(db, 'admins', user.uid));
+  if (!adminDoc.exists()) { window.location.href = '../index.html'; return; }
+});
+
+// SIGN OUT
+document.getElementById('signoutBtn').addEventListener('click', async () => {
+  await signOut(auth);
+  window.location.href = '../index.html';
+});
+
+// MOBILE SIDEBAR
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+});
+document.getElementById('sidebarOverlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+});
+
+// LIVE PREVIEW
+const emailEl = document.getElementById('clientEmail');
+const passEl  = document.getElementById('clientPassword');
+
+function updatePreview() {
+  const email = emailEl.value.trim();
+  const pass  = passEl.value.trim();
+  document.getElementById('usernameDisplay').value = email;
+  if (email || pass) {
+    document.getElementById('credsPreview').style.display = 'flex';
+    document.getElementById('previewEmail').textContent = email || '—';
+    document.getElementById('previewPass').textContent  = pass  || '—';
+  } else {
+    document.getElementById('credsPreview').style.display = 'none';
+  }
+}
+
+emailEl.addEventListener('input', updatePreview);
+
+// Clear autofilled admin email (Chrome autofill suggestion)
+emailEl.addEventListener('focus', () => {
+  if (emailEl.value === 'evarainteriors@gmail.com') {
+    emailEl.value = '';
+    updatePreview();
+  }
+});
+passEl.addEventListener('input', updatePreview);
+
+// TOGGLE PASS (eye icon swaps + input type swaps)
+window.togglePass = function() {
+  const eyeOpen   = document.getElementById('eyeOpenAC');
+  const eyeClosed = document.getElementById('eyeClosedAC');
+  if (passEl.type === 'password') {
+    passEl.type = 'text';
+    eyeOpen.style.display   = 'none';
+    eyeClosed.style.display = 'block';
+  } else {
+    passEl.type = 'password';
+    eyeOpen.style.display   = 'block';
+    eyeClosed.style.display = 'none';
+  }
+};
+
+// GENERATE RANDOM PASSWORD (Kx7#mP2! style)
+function generatePassword() {
+  const upper   = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  const lower   = 'abcdefghijkmnopqrstuvwxyz';
+  const digits  = '23456789';
+  const special = '!@#$%&*';
+  const all = upper + lower + digits + special;
+
+  let pwd = '';
+  pwd += upper[Math.floor(Math.random() * upper.length)];
+  pwd += lower[Math.floor(Math.random() * lower.length)];
+  pwd += digits[Math.floor(Math.random() * digits.length)];
+  pwd += special[Math.floor(Math.random() * special.length)];
+  for (let i = 0; i < 4; i++) {
+    pwd += all[Math.floor(Math.random() * all.length)];
+  }
+  // shuffle
+  return pwd.split('').sort(() => Math.random() - 0.5).join('');
+}
+
+window.regeneratePassword = function() {
+  passEl.value = generatePassword();
+  updatePreview();
+};
+
+// Generate password + reveal credentials card once Property Type is selected
+const propertyTypeEl = document.getElementById('propertyType');
+const credentialsCardEl = document.getElementById('credentialsCard');
+propertyTypeEl.addEventListener('change', () => {
+  if (propertyTypeEl.value && credentialsCardEl.style.display === 'none') {
+    passEl.value = generatePassword();
+    credentialsCardEl.style.display = 'block';
+    updatePreview();
+  }
+});
+
+// PHONE — digits only
+const phoneEl = document.getElementById('clientPhone');
+phoneEl.addEventListener('input', () => {
+  phoneEl.value = phoneEl.value.replace(/[^0-9 ]/g, '');
+});
+
+// CLIENT NAME — letters, spaces, dots, & only
+const nameEl = document.getElementById('displayName');
+nameEl.addEventListener('input', () => {
+  nameEl.value = nameEl.value.replace(/[^A-Za-z.&\s]/g, '');
+});
+
+// PROJECT NAME — letters, numbers, spaces, basic punctuation
+const projectNameEl = document.getElementById('projectName');
+projectNameEl.addEventListener('input', () => {
+  projectNameEl.value = projectNameEl.value.replace(/[^A-Za-z0-9.,&\-'\s]/g, '');
+});
+
+// LOCATION — letters, spaces, commas
+const locationEl = document.getElementById('location');
+locationEl.addEventListener('input', () => {
+  locationEl.value = locationEl.value.replace(/[^A-Za-z,.\s]/g, '');
+});
+
+// PASSWORD STRENGTH CHECK
+function isStrongPassword(pwd) {
+  return pwd.length >= 8 &&
+    /[A-Z]/.test(pwd) &&
+    /[0-9]/.test(pwd) &&
+    /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(pwd);
+}
+
+updatePreview();
+
+// CREATE CLIENT
+document.getElementById('createBtn').addEventListener('click', async () => {
+  const displayName  = document.getElementById('displayName').value.trim();
+  const email        = document.getElementById('clientEmail').value.trim();
+  const phoneCode    = document.getElementById('phoneCountryCode').value;
+  const phoneNum     = document.getElementById('clientPhone').value.trim();
+  const phone        = phoneNum ? `${phoneCode} ${phoneNum}` : '';
+  const projectName  = document.getElementById('projectName').value.trim();
+  const propertyType = document.getElementById('propertyType').value;
+  const location     = document.getElementById('location').value.trim();
+  const budget       = document.getElementById('totalBudget').value;
+  const startDate    = document.getElementById('startDate').value;
+  const password     = document.getElementById('clientPassword').value.trim();
+  const errEl        = document.getElementById('formError');
+
+  // Validation
+  if (!displayName || !email || !projectName || !propertyType || !password) {
+    errEl.textContent = 'Please fill in all required fields (marked with *).';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
+    errEl.textContent = 'Please enter a valid email address.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  if (!isStrongPassword(password)) {
+    errEl.textContent = 'Password must be at least 8 characters, with 1 uppercase letter, 1 number, and 1 special character.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  if (budget && Number(budget) < 0) {
+    errEl.textContent = 'Budget cannot be negative.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  errEl.style.display = 'none';
+  const btn = document.getElementById('createBtn');
+  btn.textContent = 'Creating...';
+  btn.disabled = true;
+
+  try {
+    // Create Firebase Auth user
+    const adminAuth = auth;
+    const cred = await createUserWithEmailAndPassword(adminAuth, email, password);
+    const uid = cred.user.uid;
+
+    // Save client doc to Firestore
+    await setDoc(doc(db, 'clients', uid), {
+      uid,
+      email,
+      displayName,
+      phone,
+      projectName,
+      propertyType,
+      location,
+      totalBudget: budget ? Number(budget) : 0,
+      startDate: startDate || '',
+      passwordPlain: password,
+      firstLogin: true,
+      welcomeMessage: '',
+      currentStage: 1,
+      projectStatus: 'Planning',
+      lastEdited: serverTimestamp(),
+      isCompleted: false,
+      completedAt: null,
+      moodBoardCategories: [],
+      design3dCategories: [],
+      meetingNotes: '',
+      visibility: {
+        contract: true,
+        moodBoard: true,
+        design3d: true,
+        quotation: true,
+        workSchedule: true,
+        payments: true,
+        questionnaire: false
+      }
+    });
+
+    // Create default Priyanka contact
+    await setDoc(doc(db, 'clients', uid, 'contacts', 'priyanka'), {
+      name: 'Ar. Priyanka Nagarajan',
+      designation: 'Principal Architect & Designer',
+      phone: '+91 62825 74047',
+      email: 'evarainteriors@gmail.com',
+      order: 0,
+      isDefault: true
+    });
+
+    showToast('Client portal created! Share credentials on WhatsApp.');
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1800);
+
+  } catch (err) {
+    console.error(err);
+    if (err.code === 'auth/email-already-in-use') {
+      errEl.textContent = 'This email is already registered. Use a different email.';
+    } else {
+      errEl.textContent = 'Error: ' + err.message;
+    }
+    errEl.style.display = 'block';
+    btn.innerHTML = `<svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Save Client`;
+    btn.disabled = false;
+  }
+});
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3000);
+}
+
+
+/* ── Disable browser back/forward ── */
+history.pushState(null, '', location.href);
+window.addEventListener('popstate', () => {
+  history.go(1); // cancel the back navigation by going forward again
+});
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) {
+    window.location.reload();
+  }
+});
+</script>
+
+</body>
+</html>

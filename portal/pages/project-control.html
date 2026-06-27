@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Control — EVARA Admin</title>
+  <link rel="stylesheet" href="../css/portal.css" />
+  <link rel="icon" type="image/png" href="../../../images/logo/evara-logo.png">
+</head>
+<body>
+<div id="toast"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+<div class="portal-layout">
+  <aside class="sidebar" id="sidebar">
+    <a href="https://www.evarainteriors.in" target="_blank" class="sidebar-logo" style="text-decoration:none; display:block;">
+  <div class="sidebar-logo-name">EVARA INTERIORS</div>
+  <div class="sidebar-logo-tag">Admin Panel</div>
+</a>
+    <div class="sidebar-user">
+      <div class="sidebar-user-name">Ar. Priyanka Nagarajan</div>
+      <div class="sidebar-user-role">Admin</div>
+    </div>
+    <nav class="sidebar-nav">
+      <a class="nav-item active" href="dashboard.html">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        All Projects
+      </a>
+      <a class="nav-item" href="analytics.html">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Analytics
+      </a>
+      <a class="nav-item" href="add-client.html">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        Add Client
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <button class="signout-btn" id="signoutBtn">
+        <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Sign Out
+      </button>
+    </div>
+  </aside>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" id="menuBtn">
+          <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <a class="topbar-back" href="dashboard.html">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+          All Projects
+        </a>
+        <span class="topbar-title" id="topbarClientName">Project Control</span>
+      </div>
+      <div class="topbar-right">
+  <span class="topbar-meta" id="topbarLastEdited"></span>
+  <button class="btn btn-outline" onclick="openEditClientModal()" style="font-size:11px; padding:6px 14px;">
+    <svg viewBox="0 0 24 24" style="width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    Edit Client
+  </button>
+</div>
+    </div>
+    <div class="page-body">
+     <div class="pc-tabs">
+        <button class="pc-tab active" onclick="switchTab('overview',this)">Overview</button>
+        <button class="pc-tab" onclick="switchTab('uploads',this)">Uploads</button>
+        <button class="pc-tab" onclick="switchTab('schedule',this)">Work Schedule</button>
+        <button class="pc-tab" onclick="switchTab('payments',this)">Payments</button>
+        <button class="pc-tab" onclick="switchTab('contacts',this)">Contacts</button>
+        <button class="pc-tab" onclick="switchTab('questionnaire',this)">Questionnaire</button>
+        <button class="pc-tab" onclick="switchTab('quotations',this)">Quotations</button>
+        <button class="pc-tab" onclick="switchTab('notes',this)">Meeting Notes</button>
+      </div>
+
+      <!-- OVERVIEW -->
+      <div id="tab-overview" class="tab-content active">
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-title">Stage Control — Click to Advance</div>
+            <div class="steps-row" id="stepsRow" style="margin-bottom:14px;"></div>
+            <div id="stageInfo" style="padding:10px 14px;background:var(--teal-light);border-left:3px solid var(--teal);font-size:12px;color:var(--teal-dark);"></div>
+          </div>
+          <div class="card">
+            <div class="card-title">Page Visibility</div>
+            <div id="togglesContainer"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Welcome Message to Client</div>
+          <div style="margin-bottom:10px;">
+            <button class="btn btn-ghost" onclick="loadTemplate()" style="font-size:11px;">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Use Default Template
+            </button>
+          </div>
+          <textarea class="form-textarea" id="welcomeMsg" placeholder="Type a welcome message for the client..." style="min-height:100px;"></textarea>
+          <button class="btn btn-primary" style="margin-top:10px;" onclick="saveWelcomeMsg()">
+            <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+            Send to Client
+          </button>
+        </div>
+        <div class="card">
+          <div class="card-title">Post Update to Client</div>
+          <textarea class="form-textarea" id="updateText" placeholder="Type an update for the client..." style="min-height:80px;"></textarea>
+          <button class="btn btn-primary" style="margin-top:10px;" onclick="postUpdate()">
+            <svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+            Post Update
+          </button>
+          <div id="updatesList" style="margin-top:14px;"></div>
+        </div>
+      </div>
+
+      <!--  UPLOADS -->
+      <div id="tab-uploads" class="tab-content">
+        <div class="card">
+          <div class="card-title">Contract</div>
+          <div id="contractExisting"></div>
+          <div class="form-group" style="margin-top:10px;">
+            <label class="form-label">Contract Type</label>
+            <select class="form-select" id="contractSignedStatus">
+              <option value="false">Unsigned Draft</option>
+              <option value="true">Signed Copy</option>
+            </select>
+          </div>
+          <div class="upload-zone" onclick="document.getElementById('contractFile').click()" style="margin-top:10px;">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <div class="upload-text" id="contractUploadLabel">Upload Contract (PDF only)</div>
+            <div class="upload-hint">Click to select file — replaces existing</div>
+          </div>
+          <input type="file" id="contractFile" accept=".pdf" style="display:none;" onchange="uploadContract(this)" />
+        </div>
+        <div class="card">
+          <div class="card-title">Mood Board</div>
+          <div id="moodBoardCategories"></div>
+          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+            <button class="btn btn-outline" onclick="openCategoryModal('moodBoard')">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Category & Upload
+            </button>
+            <button class="btn btn-ghost" onclick="openDirectUploadModal('moodBoard')">Upload Without Category</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">3D Design</div>
+          <div id="design3dCategories"></div>
+          <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+            <button class="btn btn-outline" onclick="openCategoryModal('design3d')">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Category & Upload
+            </button>
+            <button class="btn btn-ghost" onclick="openDirectUploadModal('design3d')">Upload Without Category</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Quotations</div>
+          <div id="quotationsList"></div>
+          <div style="margin-top:12px;">
+            <button class="btn btn-outline" id="addQuotationBtn" onclick="openQuotationModal()">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Quotation Version
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUOTATIONS -->
+      <div id="tab-quotations" class="tab-content">
+        <div class="card">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+            Quotations
+            <button class="btn btn-outline" onclick="openQuotationModal()">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Quotation
+            </button>
+          </div>
+          <div id="quotationsTabList"></div>
+          <div id="quotationsTabEmpty" class="empty-state" style="display:none;">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <div class="empty-state-text">No quotations uploaded yet</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WORK SCHEDULE -->
+      <div id="tab-schedule" class="tab-content">
+        <div class="card">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+            Work Schedule
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-ghost" onclick="loadScheduleTemplate()">Load Template</button>
+              <button class="btn btn-primary" onclick="addScheduleRow()">
+                <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Add Row
+              </button>
+            </div>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="ws-table" id="scheduleTable">
+              <thead>
+                <tr>
+                  <th style="width:40px;">S.No</th>
+                  <th>Task</th>
+                  <th style="width:130px;">Expected Date</th>
+                  <th>Scope</th>
+                  <th style="width:60px;text-align:center;">Done</th>
+                  <th style="width:50px;"></th>
+                </tr>
+              </thead>
+              <tbody id="scheduleBody"></tbody>
+            </table>
+          </div>
+          <div id="scheduleEmpty" class="empty-state" style="display:none;">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <div class="empty-state-text">No tasks yet — click Add Row to start</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAYMENTS -->
+      <div id="tab-payments" class="tab-content">
+        <div class="card">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+            Payments & Receipts
+            <button class="btn btn-primary" onclick="openPaymentModal()">+ Add Payment</button>
+          </div>
+          <div id="paymentSummary" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px;"></div>
+          <div id="paymentsList"></div>
+          <div id="paymentsEmpty" class="empty-state" style="display:none;">
+            <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+            <div class="empty-state-text">No payment entries yet</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTACTS -->
+      <div id="tab-contacts" class="tab-content">
+        <div class="card">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+            Contacts
+            <button class="btn btn-primary" onclick="openContactModal()">+ Add Contact</button>
+          </div>
+          <div id="contactsList"></div>
+        </div>
+      </div>
+
+      <!-- QUESTIONNAIRE -->
+      <div id="tab-questionnaire" class="tab-content">
+        <div class="card">
+          <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+            Questionnaire
+            <div style="display:flex;gap:10px;align-items:center;">
+              <span style="font-size:12px;color:var(--text-muted);">Enabled for client</span>
+              <div class="toggle" id="questionnaireToggle" onclick="toggleQuestionnaire()">
+                <div class="toggle-knob"></div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+            <button class="btn btn-outline" onclick="openQuestionModal()">
+              <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Add Question
+            </button>
+            <button class="btn btn-ghost" onclick="loadDefaultQuestions()">Load Default Questions</button>
+          </div>
+          <div id="questionsList"></div>
+          <div id="questionsEmpty" class="empty-state" style="display:none;">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <div class="empty-state-text">No questions yet</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MEETING NOTES -->
+      <div id="tab-notes" class="tab-content">
+        <div class="card">
+          <div class="card-title">Meeting Notes — Auto Saves as You Type</div>
+          <textarea class="form-textarea" id="meetingNotesArea" placeholder="Log all meetings here..." style="min-height:300px;font-size:13px;line-height:1.8;"></textarea>
+          <div id="autoSaveStatus" style="font-size:10px;color:var(--teal);margin-top:6px;min-height:16px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT CLIENT MODAL -->
+<div class="modal-overlay" id="modal-editclient">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('editclient')">&times;</button>
+    <div class="modal-title">Edit Client Details</div>
+    <div class="form-group">
+      <label class="form-label">Client Name *</label>
+      <input class="form-input" id="edit_displayName" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Phone</label>
+      <input class="form-input" id="edit_phone" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" type="email" id="edit_email" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Project Name *</label>
+      <input class="form-input" id="edit_projectName" autocomplete="off" />
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label class="form-label">Property Type</label>
+        <select class="form-select" id="edit_propertyType">
+  
+  <option>Apartment 2BHK</option>
+  <option>Apartment 3BHK</option>
+  <option>Apartment 4BHK+</option>
+  <option>Commercial</option>
+  <option>Independent House</option>
+  <option>Residential Villa</option>
+</select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Location</label>
+        <input class="form-input" id="edit_location" autocomplete="off" />
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="form-group">
+        <label class="form-label">Total Budget (₹)</label>
+        <input class="form-input" type="number" id="edit_totalBudget" autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Start Date</label>
+        <input class="form-input" type="date" id="edit_startDate" autocomplete="off" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Project Status</label>
+      <select class="form-select" id="edit_projectStatus">
+        <option value="Planning">Design Phase</option>
+        <option value="In Progress">Site Progress</option>
+        <option value="Completed">Completed</option>
+      </select>
+    </div>
+    <div id="editClientError" style="color:#C62828;font-size:12px;margin-bottom:10px;display:none;"></div>
+    <button class="btn btn-primary" onclick="saveEditClient()" style="width:100%;">Save Changes</button>
+  </div>
+</div>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-category">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('category')">&times;</button>
+    <div class="modal-title" id="catModalTitle">Add Category & Upload</div>
+    <div class="form-group">
+      <label class="form-label">Category Name *</label>
+      <input class="form-input" id="catName" placeholder="Eg. Material Samples" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Upload Files</label>
+      <div class="upload-zone" onclick="document.getElementById('catFiles').click()">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <div class="upload-text">Click to select files</div>
+        <div class="upload-hint" id="catFilesHint">PDF, JPG, PNG or any format</div>
+      </div>
+      <input type="file" id="catFiles" multiple style="display:none;" onchange="updateCatFileHint(this)" />
+    </div>
+    <button class="btn btn-primary" onclick="uploadWithCategory()" style="width:100%;">Upload Files</button>
+    <div id="catError" style="color:#C62828;font-size:12px;margin-top:8px;display:none;"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-directupload">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('directupload')">&times;</button>
+    <div class="modal-title" id="directModalTitle">Upload Files</div>
+    <div class="form-group">
+      <div class="upload-zone" onclick="document.getElementById('directFiles').click()">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <div class="upload-text">Click to select files</div>
+        <div class="upload-hint" id="directFilesHint">PDF, JPG, PNG or any format</div>
+      </div>
+      <input type="file" id="directFiles" multiple style="display:none;" onchange="updateDirectFileHint(this)" />
+    </div>
+    <button class="btn btn-primary" onclick="uploadDirect()" style="width:100%;">Upload Files</button>
+    <div id="directError" style="color:#C62828;font-size:12px;margin-top:8px;display:none;"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-quotation">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('quotation')">&times;</button>
+    <div class="modal-title">Add Quotation Version</div>
+    <div class="form-group">
+      <label class="form-label">Version Name (optional)</label>
+      <input class="form-input" id="quotationName" placeholder="Eg. Initial Quotation — ₹9L" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Upload File (PDF or DOCX) *</label>
+      <div class="upload-zone" onclick="document.getElementById('quotationFile').click()">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <div class="upload-text">Click to select file</div>
+        <div class="upload-hint" id="quotationFileHint">PDF or DOCX</div>
+      </div>
+      <input type="file" id="quotationFile" accept=".pdf,.docx,.doc" style="display:none;" onchange="const f=this.files[0];const h=document.getElementById('quotationFileHint');if(f){h.textContent='✓ '+f.name;h.style.color='var(--teal)';h.style.fontWeight='500';}else{h.textContent='PDF or DOCX';h.style.color='';h.style.fontWeight='';}" />
+    </div>
+    <button class="btn btn-primary" onclick="uploadQuotation()" style="width:100%;">Upload Quotation</button>
+    <div id="quotationError" style="color:#C62828;font-size:12px;margin-top:8px;display:none;"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-payment">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('payment')">&times;</button>
+    <div class="modal-title">Add Payment Entry</div>
+    <div class="form-group">
+      <label class="form-label">Date of Payment *</label>
+      <input class="form-input" type="date" id="paymentDate" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Amount (₹) *</label>
+      <input class="form-input" type="number" id="paymentAmount" placeholder="Eg. 300000" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Upload Receipt *</label>
+      <div class="upload-zone" onclick="document.getElementById('paymentReceipt').click()">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <div class="upload-text">Click to select receipt</div>
+        <div class="upload-hint" id="receiptHint">PDF, JPG or image scan</div>
+      </div>
+      <input type="file" id="paymentReceipt" style="display:none;" onchange="const f=this.files[0];const h=document.getElementById('receiptHint');if(f){h.textContent='✓ '+f.name;h.style.color='var(--teal)';h.style.fontWeight='500';}else{h.textContent='PDF, JPG or image scan';h.style.color='';h.style.fontWeight='';}" />
+    </div>
+    <button class="btn btn-primary" onclick="savePayment()" style="width:100%;">Add Payment</button>
+    <div id="paymentError" style="color:#C62828;font-size:12px;margin-top:8px;display:none;"></div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-contact">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('contact')">&times;</button>
+    <div class="modal-title">Add Contact</div>
+    <div class="form-group">
+      <label class="form-label">Name *</label>
+      <input class="form-input" id="contactName" placeholder="Eg. Ramesh Kumar" autocomplete="off" />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Designation *</label>
+      <input class="form-input" id="contactDesig" placeholder="Eg. Site Manager" autocomplete="off"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Phone Number</label>
+      <input class="form-input" id="contactPhone" placeholder="+91 98765 43210" autocomplete="off"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" id="contactEmail" placeholder="email@example.com" autocomplete="off"/>
+    </div>
+    <button class="btn btn-primary" id="contactSaveBtn" style="width:100%;">Save Contact</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-question">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('question')">&times;</button>
+    <div class="modal-title">Add Question</div>
+    <div class="form-group">
+      <label class="form-label">Question Text *</label>
+      <textarea class="form-textarea" id="questionText" placeholder="Eg. What are your preferred color tones?"></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="saveQuestion()" style="width:100%;">Add Question</button>
+  </div>
+</div>
+
+<style>
+.pc-tabs { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:20px; flex-wrap:wrap; background:var(--white); padding:0 4px; border-radius:4px 4px 0 0; }
+.pc-tab { padding:11px 16px; font-size:12px; letter-spacing:0.06em; background:none; border:none; border-bottom:2px solid transparent; color:var(--text-muted); cursor:pointer; margin-bottom:-1px; transition:all 0.15s; font-family:'DM Sans',sans-serif; white-space:nowrap; }
+.pc-tab.active { color:var(--teal); border-bottom-color:var(--teal); }
+.pc-tab:hover { color:var(--dark); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+.schedule-input { border:none; background:transparent; font-family:'DM Sans',sans-serif; font-size:12px; color:var(--dark); width:100%; outline:none; padding:2px 4px; }
+.schedule-input:focus { background:var(--teal-light); border-radius:2px; }
+.date-cell-wrap { display:flex; align-items:center; gap:6px; position:relative; }
+.date-display { font-size:12px; color:var(--text-body); }
+.cal-icon { display:none; cursor:pointer; color:var(--teal); flex-shrink:0; line-height:1; }
+.date-cell-wrap:hover .cal-icon { display:flex; }
+.date-picker-hidden { position:absolute; opacity:0; pointer-events:none; width:0; height:0; border:none; }
+.pay-summary-card { background:var(--warm-white); border:1px solid var(--border); border-radius:4px; padding:12px 14px; text-align:center; }
+.pay-summary-label { font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--text-muted); margin-bottom:5px; }
+.pay-summary-val { font-size:20px; font-weight:500; }
+.q-item { display:flex; align-items:flex-start; gap:12px; padding:12px 0; border-bottom:1px solid var(--border); }
+.q-item:last-child { border-bottom:none; }
+.q-num { font-size:11px; color:var(--text-muted); flex-shrink:0; margin-top:2px; min-width:24px; }
+.btn-outline, .btn-primary {
+  min-width: 110px;
+  justify-content: center;
+}
+@media (max-width: 768px) {
+  .btn-outline, .btn-primary {
+    min-width: 50px;
+    font-size: 11px;
+    padding: 8px 12px;
+  }
+}
+@media (max-width: 768px) {
+  /* Stack grid-2 cards full width */
+  .grid-2 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Stage control — wrap into 2 rows of 3 */
+  .steps-row {
+    display: grid !important;
+    grid-template-columns: 1fr auto 1fr auto 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 8px 0 !important;
+    row-gap: 12px !important;
+  }
+
+  /* Hide connectors between row 1 and row 2 */
+  .steps-row .step-connector:nth-child(6) {
+    display: none !important;
+  }
+
+  .step-item {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 4px !important;
+  }
+
+  .step-label {
+    font-size: 9px !important;
+    text-align: center !important;
+    line-height: 1.3 !important;
+    max-width: 60px !important;
+  }
+
+  .step-circle {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 11px !important;
+  }
+
+  .step-connector {
+    flex-shrink: 0 !important;
+    width: 16px !important;
+    min-width: 0 !important;
+  }
+
+  /* Cards — better padding on mobile */
+  .card {
+    padding: 14px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Payment summary — stack vertically */
+  #paymentSummary {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+  }
+
+  /* Topbar — hide last edited text to save space */
+  #topbarLastEdited {
+    display: none !important;
+  }
+
+  /* Tabs — horizontal scroll */
+  .pc-tabs {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+  .pc-tabs::-webkit-scrollbar { display: none !important; }
+
+  /* Edit client button — icon only on mobile */
+  .topbar-right .btn-outline span,
+  .topbar-right .btn-outline {
+    padding: 6px 10px !important;
+    font-size: 0 !important;
+  }
+  .topbar-right .btn-outline svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+}
+@media (max-width: 768px) {
+  .pc-tabs {
+    margin-top: 16px !important;
+    padding-top: 4px !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 8px !important;
+  }
+}
+</style>
+
+<script type="module">
+import { auth, db, storage } from '../js/firebase.js';
+import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+import { doc, getDoc, setDoc, updateDoc, addDoc, deleteDoc, collection, query, orderBy, onSnapshot, serverTimestamp, getDocs, writeBatch } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js';
+
+const STEPS = ['Design Brief','Mood Board','3D Design','Budget & Approval','Execution','Final Handover'];
+const TOGGLE_KEYS = [
+  { key:'contract', label:'Contract' },
+  { key:'moodBoard', label:'Mood Board' },
+  { key:'design3d', label:'3D Design' },
+  { key:'quotation', label:'Quotation' },
+  { key:'workSchedule', label:'Work Schedule' },
+  { key:'payments', label:'Payments' },
+  { key:'questionnaire', label:'Questionnaire' },
+];
+
+const params = new URLSearchParams(window.location.search);
+const clientId = params.get('clientId');
+if (!clientId) window.location.href = 'dashboard.html';
+
+let clientData = {};
+let currentSection = '';
+let scheduleRows = [];
+let notesTimer = null;
+
+// VIEW FILE
+window.viewFile = function(url, fileType) {
+  const lower = (fileType || url).toLowerCase();
+  const isImage = lower.includes('image/') || 
+    ['.jpg','.jpeg','.png','.webp','.gif'].some(ext => url.toLowerCase().includes(ext));
+  const isDocx = lower.includes('docx') || lower.includes('doc');
+
+  if (isImage) {
+    const win = window.open('', '_blank');
+    win.document.write('<img src="' + url + '" style="max-width:100%;max-height:100vh;display:block;margin:auto;background:#000">');
+  } else if (isDocx) {
+    window.open('https://docs.google.com/viewer?url=' + encodeURIComponent(url) + '&embedded=false', '_blank');
+  } else {
+    const viewUrl = url.includes('?') ? url + '&response-content-disposition=inline' : url + '?response-content-disposition=inline';
+    window.open(viewUrl, '_blank');
+  }
+};
+
+function getDefaultTemplate() {
+  const name = clientData.displayName || 'Valued Client';
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const fmt = (d) => d.toLocaleDateString('en-IN', { day:'numeric', month:'long', year:'numeric' });
+  return 'Dear ' + name + ',\n\nWelcome aboard! We\'re thrilled to have you as part of the Evara Interiors family and excited to begin curating a space that truly reflects your personality and lifestyle.\n\nWe\'ve received your token amount towards design changes, and we truly appreciate your promptness. This marks the first step in bringing your dream space to life.\n\nAttached to your portal is your Interior Design Contract Draft, which outlines the scope of work, timelines, payment milestones, warranties, and other important terms. Please take a moment to review it and let us know if you have any questions or would like to discuss any part further.\n\nNext steps:\n• Once you\'re comfortable with the terms, kindly confirm and we will arrange for a hard copy signing at our office.\n• We have scheduled the site measurements for ' + fmt(tomorrow) + ', post which the design work will begin.\n\nWe look forward to creating something beautiful together!\n\nWarm regards,\nAr. Priyanka Nagarajan\nEvara Interiors';
+}
+
+// AUTH
+onAuthStateChanged(auth, async (user) => {
+  if (!user) { window.location.href = '../index.html'; return; }
+  const adminDoc = await getDoc(doc(db, 'admins', user.uid));
+  if (!adminDoc.exists()) { window.location.href = '../index.html'; return; }
+  init();
+});
+
+document.getElementById('signoutBtn').addEventListener('click', async () => {
+  await signOut(auth);
+  window.location.href = '../index.html';
+});
+
+document.getElementById('menuBtn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+});
+document.getElementById('sidebarOverlay').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+});
+
+async function init() {
+  onSnapshot(doc(db, 'clients', clientId), (snap) => {
+    if (!snap.exists()) return;
+    clientData = snap.data();
+    document.getElementById('topbarClientName').textContent = clientData.displayName || 'Project Control';
+    const le = clientData.lastEdited;
+    document.getElementById('topbarLastEdited').textContent = le ? 'Last edited: ' + le.toDate().toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) : '';
+    renderSteps(clientData.currentStage || 1);
+    renderToggles(clientData.visibility || {});
+    if (clientData.welcomeMessage) document.getElementById('welcomeMsg').value = clientData.welcomeMessage;
+    const qt = document.getElementById('questionnaireToggle');
+    qt.className = 'toggle ' + (clientData.visibility?.questionnaire === true ? 'on' : 'off');
+  });
+  loadUpdates(); loadContract(); loadMoodBoard(); loadDesign3d();
+  loadQuotations(); loadPayments(); loadContacts(); loadQuestionnaire();
+  loadSchedule(); loadMeetingNotes();
+}
+
+function renderSteps(currentStage) {
+  const row = document.getElementById('stepsRow');
+  row.innerHTML = '';
+  STEPS.forEach((label, i) => {
+    const stepNum = i + 1;
+    const isDone = stepNum < currentStage;
+    const isActive = stepNum === currentStage;
+    const step = document.createElement('div');
+    step.className = 'step-item' + (isDone ? ' done' : isActive ? ' active' : '');
+    step.innerHTML = '<div class="step-circle">' + (isDone ? '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>' : stepNum) + '</div><div class="step-label">' + label + '</div>';
+    step.onclick = () => advanceStage(stepNum);
+    row.appendChild(step);
+    if (i < STEPS.length - 1) {
+      const c = document.createElement('div');
+      c.className = 'step-connector' + (isDone ? ' done' : '');
+      row.appendChild(c);
+    }
+  });
+  document.getElementById('stageInfo').textContent = 'Currently at: Step ' + currentStage + ' — ' + STEPS[currentStage-1] + '. Click a circle to advance.';
+}
+
+async function advanceStage(stepNum) {
+  const status = stepNum >= 6 ? 'Completed' : stepNum >= 3 ? 'In Progress' : 'Planning';
+  await updateDoc(doc(db, 'clients', clientId), { currentStage: stepNum, projectStatus: status, lastEdited: serverTimestamp() });
+  showToast('Stage updated to Step ' + stepNum);
+}
+
+function renderToggles(vis) {
+  const container = document.getElementById('togglesContainer');
+  container.innerHTML = '';
+  TOGGLE_KEYS.forEach(({ key, label }) => {
+    const isOn = key === 'questionnaire' ? vis[key] === true : vis[key] !== false;
+    const row = document.createElement('div');
+    row.className = 'toggle-row';
+    row.innerHTML = '<span class="toggle-label">' + label + '</span><div class="toggle ' + (isOn ? 'on' : 'off') + '" id="tog-' + key + '" onclick="toggleVisibility(\'' + key + '\')"><div class="toggle-knob"></div></div>';
+    container.appendChild(row);
+  });
+}
+
+window.toggleVisibility = async function(key) {
+  const tog = document.getElementById('tog-' + key);
+  const newVal = !tog.classList.contains('on');
+  tog.className = 'toggle ' + (newVal ? 'on' : 'off');
+  await updateDoc(doc(db, 'clients', clientId), { ['visibility.' + key]: newVal, lastEdited: serverTimestamp() });
+};
+
+window.toggleQuestionnaire = async function() {
+  const tog = document.getElementById('questionnaireToggle');
+  const newVal = !tog.classList.contains('on');
+  tog.className = 'toggle ' + (newVal ? 'on' : 'off');
+  await updateDoc(doc(db, 'clients', clientId), { 'visibility.questionnaire': newVal, lastEdited: serverTimestamp() });
+};
+
+window.loadTemplate = function() { document.getElementById('welcomeMsg').value = getDefaultTemplate(); };
+
+window.saveWelcomeMsg = async function() {
+  const msg = document.getElementById('welcomeMsg').value.trim();
+  if (!msg) { showToast('Please type a message first'); return; }
+  await updateDoc(doc(db, 'clients', clientId), { welcomeMessage: msg, lastEdited: serverTimestamp() });
+  showToast('Welcome message sent to client!');
+};
+
+window.postUpdate = async function() {
+  const text = document.getElementById('updateText').value.trim();
+  if (!text) { showToast('Please type an update'); return; }
+  await addDoc(collection(db, 'clients', clientId, 'updates'), { text, postedAt: serverTimestamp(), postedBy: 'Priyanka', seenByClient: false, seenAt: null });
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+  document.getElementById('updateText').value = '';
+  showToast('Update posted!');
+};
+
+function loadUpdates() {
+  const q = query(collection(db, 'clients', clientId, 'updates'), orderBy('postedAt', 'desc'));
+  onSnapshot(q, (snap) => {
+    const list = document.getElementById('updatesList');
+    if (snap.empty) { list.innerHTML = ''; return; }
+    list.innerHTML = '<div style="font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;">Posted Updates</div>';
+    snap.docs.forEach(d => {
+      const u = d.data();
+      const date = u.postedAt ? u.postedAt.toDate().toLocaleDateString('en-IN', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }) : '—';
+      list.innerHTML += '<div style="padding:10px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;gap:10px;"><div><div style="font-size:10px;color:var(--text-muted);margin-bottom:3px;">' + date + ' · ' + (u.seenByClient ? '✓ Seen by client' : 'Not seen yet') + '</div><div style="font-size:13px;color:var(--dark);">' + u.text + '</div></div><button onclick="deleteUpdate(\'' + d.id + '\')" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;flex-shrink:0;">×</button></div>';
+    });
+  });
+}
+
+window.deleteUpdate = async function(id) {
+  if (!confirm('Delete this update?')) return;
+  await deleteDoc(doc(db, 'clients', clientId, 'updates', id));
+  showToast('Update deleted');
+};
+
+function loadContract() {
+  onSnapshot(doc(db, 'clients', clientId, 'contract', 'current'), (snap) => {
+    const el = document.getElementById('contractExisting');
+    if (!snap.exists()) {
+      el.innerHTML = '<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">No contract uploaded yet.</div>';
+      document.getElementById('contractUploadLabel').textContent = 'Upload Contract (PDF only)';
+      return;
+    }
+    const d = snap.data();
+    const date = d.uploadedAt ? d.uploadedAt.toDate().toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '—';
+    el.innerHTML = '<div class="file-row"><div class="file-left"><div class="file-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><div class="file-name">' + d.fileName + '</div><div class="file-meta">PDF · ' + (d.isSigned ? 'Signed copy' : 'Unsigned draft') + '</div></div></div><div class="file-right"><div class="file-date">' + date + '</div><button onclick="viewFile(\'' + d.fileUrl + '\')" class="btn btn-outline" style="font-size:10px;padding:5px 10px;">View</button></div></div>';
+    document.getElementById('contractUploadLabel').textContent = 'Replace Contract (PDF only)';
+  });
+}
+
+window.uploadContract = async function(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const isSigned = document.getElementById('contractSignedStatus').value === 'true';
+  showToast('Uploading contract...');
+  try {
+    const storageRef = ref(storage, 'clients/' + clientId + '/contract/' + file.name);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    await setDoc(doc(db, 'clients', clientId, 'contract', 'current'), { fileUrl: url, fileName: file.name, uploadedAt: serverTimestamp(), isSigned });
+    await updateDoc(doc(db, 'clients', clientId), { 'visibility.contract': true, lastEdited: serverTimestamp() });
+    showToast('Contract uploaded!');
+    input.value = '';
+  } catch(e) { showToast('Upload failed: ' + e.message); }
+};
+
+function loadMoodBoard() {
+  onSnapshot(doc(db, 'clients', clientId), (snap) => {
+    if (!snap.exists()) return;
+    renderFileSection('moodBoard', snap.data().moodBoardCategories || [], 'moodBoardCategories');
+  });
+}
+
+function loadDesign3d() {
+  onSnapshot(doc(db, 'clients', clientId), (snap) => {
+    if (!snap.exists()) return;
+    renderFileSection('design3d', snap.data().design3dCategories || [], 'design3dCategories');
+  });
+}
+
+function renderFileSection(section, cats, catsField) {
+  const elId = section === 'moodBoard' ? 'moodBoardCategories' : 'design3dCategories';
+  const container = document.getElementById(elId);
+  onSnapshot(query(collection(db, 'clients', clientId, section), orderBy('uploadedAt', 'desc')), (snap) => {
+    const files = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    container.innerHTML = '';
+    if (files.length === 0 && cats.length === 0) {
+      container.innerHTML = '<div style="font-size:12px;color:var(--text-muted);">No files uploaded yet.</div>';
+      return;
+    }
+    const uncategorized = files.filter(f => !f.category);
+    if (uncategorized.length > 0) uncategorized.forEach(f => container.appendChild(fileRow(f, section)));
+    cats.forEach(cat => {
+      const catFiles = files.filter(f => f.category === cat);
+      const catDiv = document.createElement('div');
+      catDiv.style.marginBottom = '12px';
+      catDiv.innerHTML = '<div style="font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--teal);margin-bottom:6px;display:flex;justify-content:space-between;">' + cat + '<button onclick="deleteCategory(\'' + section + '\',\'' + cat + '\',\'' + catsField + '\')" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:11px;">Delete category</button></div>';
+      if (catFiles.length === 0) {
+        catDiv.innerHTML += '<div style="font-size:11px;color:var(--text-muted);">No files in this category yet.</div>';
+      } else {
+        catFiles.forEach(f => catDiv.appendChild(fileRow(f, section)));
+      }
+      container.appendChild(catDiv);
+    });
+  });
+}
+
+function fileRow(f, section) {
+  const div = document.createElement('div');
+  const date = f.uploadedAt ? f.uploadedAt.toDate().toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '—';
+  const fileType = (f.fileType || '').toLowerCase();
+  const isImage = fileType.startsWith('image/') ||
+    ['.jpg','.jpeg','.png','.webp','.gif'].some(ext => (f.fileName||'').toLowerCase().endsWith(ext));
+
+  if (isImage) {
+    div.style.cssText = 'margin-bottom:10px;';
+    div.innerHTML = '<div style="text-align:right;font-size:10px;color:var(--text-muted);margin-bottom:4px;">' + date + '</div>'
+      + '<div style="position:relative;display:inline-block;width:100%;">'
+      + '<img src="' + f.fileUrl + '" alt="' + f.fileName + '" '
+      + 'style="width:100%;max-height:260px;object-fit:cover;border-radius:3px;cursor:pointer;display:block;" '
+      + 'onclick="viewFile(\'' + f.fileUrl + '\',\'' + f.fileType + '\')" />'
+      + '<div style="display:flex;justify-content:flex-end;gap:6px;margin-top:6px;">'
+      + '<button onclick="viewFile(\'' + f.fileUrl + '\',\'' + f.fileType + '\')" class="btn btn-outline" style="font-size:10px;padding:4px 10px;">View</button>'
+      + '<button onclick="deleteFile(\'' + section + '\',\'' + f.id + '\',\'' + f.fileUrl + '\')" class="btn btn-danger" style="font-size:10px;padding:4px 10px;">×</button>'
+      + '</div></div>';
+  } else {
+    div.className = 'file-row';
+    div.innerHTML = '<div class="file-left"><div class="file-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><div class="file-name">' + f.fileName + '</div><div class="file-meta">' + (f.fileSize || '') + '</div></div></div><div class="file-right"><div class="file-date">' + date + '</div><div style="display:flex;gap:6px;"><button onclick="viewFile(\'' + f.fileUrl + '\',\'' + (f.fileType||'') + '\')" class="btn btn-outline" style="font-size:10px;padding:4px 10px;">View</button><button onclick="deleteFile(\'' + section + '\',\'' + f.id + '\',\'' + f.fileUrl + '\')" class="btn btn-danger" style="font-size:10px;padding:4px 10px;">×</button></div></div>';
+  }
+  return div;
+}
+
+window.deleteFile = async function(section, fileId, fileUrl) {
+  if (!confirm('Delete this file?')) return;
+  try {
+    await deleteDoc(doc(db, 'clients', clientId, section, fileId));
+    await deleteObject(ref(storage, fileUrl)).catch(() => {});
+    await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+    showToast('File deleted');
+  } catch(e) { showToast('Error: ' + e.message); }
+};
+
+window.deleteCategory = async function(section, catName, catsField) {
+  if (!confirm('Delete category "' + catName + '"? Files inside will lose their category label but won\'t be deleted.')) return;
+  const cats = clientData[catsField] || [];
+  await updateDoc(doc(db, 'clients', clientId), { [catsField]: cats.filter(c => c !== catName), lastEdited: serverTimestamp() });
+  showToast('Category removed');
+};
+
+window.openCategoryModal = function(section) {
+  currentSection = section;
+  document.getElementById('catModalTitle').textContent = section === 'moodBoard' ? 'Add Mood Board Category' : 'Add 3D Design Category';
+  document.getElementById('catName').value = '';
+  document.getElementById('catFiles').value = '';
+  const h = document.getElementById('catFilesHint');
+  h.textContent = 'PDF, JPG, PNG or any format'; h.style.color = ''; h.style.fontWeight = '';
+  document.getElementById('catError').style.display = 'none';
+  openModal('category');
+};
+
+window.updateCatFileHint = function(input) {
+  const h = document.getElementById('catFilesHint');
+  if (input.files.length > 0) { h.textContent = '✓ ' + input.files.length + ' file(s) selected'; h.style.color = 'var(--teal)'; h.style.fontWeight = '500'; }
+  else { h.textContent = 'PDF, JPG, PNG or any format'; h.style.color = ''; h.style.fontWeight = ''; }
+};
+
+window.uploadWithCategory = async function() {
+  const catName = document.getElementById('catName').value.trim();
+  const files = document.getElementById('catFiles').files;
+  const errEl = document.getElementById('catError');
+  if (!catName) { errEl.textContent = 'Please enter a category name'; errEl.style.display = 'block'; return; }
+  const catsField = currentSection === 'moodBoard' ? 'moodBoardCategories' : 'design3dCategories';
+  const existingCats = clientData[catsField] || [];
+  if (!existingCats.includes(catName) && existingCats.length >= 10) { errEl.textContent = 'Maximum 10 categories allowed'; errEl.style.display = 'block'; return; }
+  showToast('Uploading...'); closeModal('category');
+  if (!existingCats.includes(catName)) await updateDoc(doc(db, 'clients', clientId), { [catsField]: [...existingCats, catName] });
+  for (const file of files) {
+    const storageRef = ref(storage, 'clients/' + clientId + '/' + currentSection + '/' + Date.now() + '_' + file.name);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    await addDoc(collection(db, 'clients', clientId, currentSection), { fileUrl: url, fileName: file.name, category: catName, fileSize: formatSize(file.size), fileType: file.type || 'other', uploadedAt: serverTimestamp() });
+  }
+  await updateDoc(doc(db, 'clients', clientId), { ['visibility.' + (currentSection === 'moodBoard' ? 'moodBoard' : 'design3d')]: true, lastEdited: serverTimestamp() });
+  showToast('Files uploaded!');
+};
+
+window.openDirectUploadModal = function(section) {
+  currentSection = section;
+  document.getElementById('directModalTitle').textContent = section === 'moodBoard' ? 'Upload Mood Board Files' : 'Upload 3D Design Files';
+  document.getElementById('directFiles').value = '';
+  const h = document.getElementById('directFilesHint');
+  h.textContent = 'PDF, JPG, PNG or any format'; h.style.color = ''; h.style.fontWeight = '';
+  document.getElementById('directError').style.display = 'none';
+  openModal('directupload');
+};
+
+window.updateDirectFileHint = function(input) {
+  const h = document.getElementById('directFilesHint');
+  if (input.files.length > 0) { h.textContent = '✓ ' + input.files.length + ' file(s) selected'; h.style.color = 'var(--teal)'; h.style.fontWeight = '500'; }
+  else { h.textContent = 'PDF, JPG, PNG or any format'; h.style.color = ''; h.style.fontWeight = ''; }
+};
+
+window.uploadDirect = async function() {
+  const files = document.getElementById('directFiles').files;
+  if (!files.length) { document.getElementById('directError').textContent = 'Select files first'; document.getElementById('directError').style.display = 'block'; return; }
+  showToast('Uploading...'); closeModal('directupload');
+  for (const file of files) {
+    const storageRef = ref(storage, 'clients/' + clientId + '/' + currentSection + '/' + Date.now() + '_' + file.name);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+    await addDoc(collection(db, 'clients', clientId, currentSection), { fileUrl: url, fileName: file.name, category: '', fileSize: formatSize(file.size), fileType: file.type || 'other', uploadedAt: serverTimestamp() });
+  }
+  await updateDoc(doc(db, 'clients', clientId), { ['visibility.' + (currentSection === 'moodBoard' ? 'moodBoard' : 'design3d')]: true, lastEdited: serverTimestamp() });
+  showToast('Files uploaded!');
+};
+function loadQuotations() {
+  const q = query(collection(db, 'clients', clientId, 'quotations'), orderBy('uploadedAt', 'desc'));
+  onSnapshot(q, (snap) => {
+    const list = document.getElementById('quotationsList');
+    const tabList = document.getElementById('quotationsTabList');
+    const tabEmpty = document.getElementById('quotationsTabEmpty');
+
+    const buildRow = (d) => {
+      const q = d.data();
+      const date = q.uploadedAt ? q.uploadedAt.toDate().toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '—';
+      return '<div class="file-row"><div class="file-left"><div class="file-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div><div class="file-name">' + q.versionName + '</div><div class="file-meta">' + q.fileName + ' · ' + (q.fileSize || '') + '</div></div></div><div class="file-right"><div class="file-date">' + date + '</div><div style="display:flex;gap:6px;"><button onclick="viewFile(\'' + q.fileUrl + '\')" class="btn btn-outline" style="font-size:10px;padding:4px 10px;">View</button><button onclick="deleteQuotation(\'' + d.id + '\',\'' + q.fileUrl + '\')" class="btn btn-danger" style="font-size:10px;padding:4px 10px;">×</button></div></div></div>';
+    };
+
+    if (snap.empty) {
+      list.innerHTML = '<div style="font-size:12px;color:var(--text-muted);margin-bottom:8px;">No quotations uploaded yet.</div>';
+      tabList.innerHTML = '';
+      tabEmpty.style.display = 'block';
+      return;
+    }
+
+    tabEmpty.style.display = 'none';
+    list.innerHTML = '';
+    tabList.innerHTML = '';
+    snap.docs.forEach(d => {
+      const row = buildRow(d);
+      list.innerHTML += row;
+      tabList.innerHTML += row;
+    });
+  });
+}
+
+window.openQuotationModal = function() {
+  document.getElementById('quotationName').value = '';
+  document.getElementById('quotationFile').value = '';
+  const h = document.getElementById('quotationFileHint');
+  h.textContent = 'PDF or DOCX'; h.style.color = ''; h.style.fontWeight = '';
+  document.getElementById('quotationError').style.display = 'none';
+  openModal('quotation');
+};
+
+window.uploadQuotation = async function() {
+  let name = document.getElementById('quotationName').value.trim();
+  const file = document.getElementById('quotationFile').files[0];
+  const errEl = document.getElementById('quotationError');
+  if (!name) {
+  const d = new Date();
+  const dd = String(d.getDate()).padStart(2, '0');
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const yyyy = d.getFullYear();
+  name = 'Quotation - ' + dd + '-' + mm + '-' + yyyy;
+  }
+  if (!file) { errEl.textContent = 'Select a file'; errEl.style.display = 'block'; return; }
+  showToast('Uploading quotation...'); closeModal('quotation');
+  const storageRef = ref(storage, 'clients/' + clientId + '/quotations/' + Date.now() + '_' + file.name);
+  await uploadBytes(storageRef, file);
+  const url = await getDownloadURL(storageRef);
+  await addDoc(collection(db, 'clients', clientId, 'quotations'), { versionName: name, fileUrl: url, fileName: file.name, fileSize: formatSize(file.size), fileType: file.type, uploadedAt: serverTimestamp() });
+  await updateDoc(doc(db, 'clients', clientId), { 'visibility.quotation': true, lastEdited: serverTimestamp() });
+  showToast('Quotation uploaded!');
+};
+
+window.deleteQuotation = async function(id, url) {
+  if (!confirm('Delete this quotation?')) return;
+  await deleteDoc(doc(db, 'clients', clientId, 'quotations', id));
+  await deleteObject(ref(storage, url)).catch(() => {});
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+  showToast('Quotation deleted');
+};
+
+function loadPayments() {
+  const q = query(collection(db, 'clients', clientId, 'payments'), orderBy('paidOn', 'desc'));
+  onSnapshot(q, (snap) => {
+    const list = document.getElementById('paymentsList');
+    const empty = document.getElementById('paymentsEmpty');
+    const summary = document.getElementById('paymentSummary');
+    if (snap.empty) { list.innerHTML = ''; empty.style.display = 'block'; summary.innerHTML = ''; return; }
+    empty.style.display = 'none';
+    let totalPaid = 0;
+    snap.docs.forEach(d => { totalPaid += Number(d.data().amount || 0); });
+    const totalBudget = clientData.totalBudget || 0;
+    const pending = Math.max(0, totalBudget - totalPaid);
+    summary.innerHTML = '<div class="pay-summary-card"><div class="pay-summary-label">Total Budget</div><div class="pay-summary-val" style="color:var(--dark);cursor:pointer;" onclick="editBudget()" title="Click to edit">₹' + totalBudget.toLocaleString('en-IN') + ' ✎</div></div><div class="pay-summary-card"><div class="pay-summary-label">Amount Paid</div><div class="pay-summary-val" style="color:#2E7D32;">₹' + totalPaid.toLocaleString('en-IN') + '</div></div><div class="pay-summary-card"><div class="pay-summary-label">Pending</div><div class="pay-summary-val" style="color:#E65100;">₹' + pending.toLocaleString('en-IN') + '</div></div>';
+    list.innerHTML = '';
+    snap.docs.forEach(d => {
+      const p = d.data();
+      const date = p.paidOn ? new Date(p.paidOn.seconds * 1000).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : '—';
+      list.innerHTML += '<div class="file-row"><div class="file-left"><div class="file-icon" style="background:#E8F5E9;"><svg viewBox="0 0 24 24" style="stroke:#2E7D32;"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div><div><div class="file-name" style="color:#2E7D32;">₹' + Number(p.amount).toLocaleString('en-IN') + '</div><div class="file-meta">' + (p.receiptName || 'No receipt') + '</div></div></div><div class="file-right"><div class="file-date">' + date + '</div><div style="display:flex;gap:6px;">' + (p.receiptUrl ? '<button onclick="viewFile(\'' + p.receiptUrl + '\')" class="btn btn-outline" style="font-size:10px;padding:4px 10px;">View</button><a href="' + p.receiptUrl + '" download class="btn btn-ghost" style="font-size:10px;padding:4px 10px;">Download</a>' : '') + '<button onclick="deletePayment(\'' + d.id + '\')" class="btn btn-danger" style="font-size:10px;padding:4px 10px;">×</button></div></div></div>';
+    });
+  });
+}
+
+window.openPaymentModal = function() {
+  document.getElementById('paymentDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('paymentAmount').value = '';
+  document.getElementById('paymentReceipt').value = '';
+  const h = document.getElementById('receiptHint');
+  h.textContent = 'PDF, JPG or image scan'; h.style.color = ''; h.style.fontWeight = '';
+  document.getElementById('paymentError').style.display = 'none';
+  openModal('payment');
+};
+
+window.savePayment = async function() {
+  const date = document.getElementById('paymentDate').value;
+  const amount = document.getElementById('paymentAmount').value;
+  const file = document.getElementById('paymentReceipt').files[0];
+  const errEl = document.getElementById('paymentError');
+  if (!date) { errEl.textContent = 'Select a date'; errEl.style.display = 'block'; return; }
+  if (!amount) { errEl.textContent = 'Enter amount'; errEl.style.display = 'block'; return; }
+  if (!file) { errEl.textContent = 'Receipt is required'; errEl.style.display = 'block'; return; }
+  showToast('Saving payment...'); closeModal('payment');
+  let receiptUrl = '', receiptName = '', receiptFileType = '', receiptFileSize = '';
+  if (file) {
+    const storageRef = ref(storage, 'clients/' + clientId + '/receipts/' + Date.now() + '_' + file.name);
+    await uploadBytes(storageRef, file);
+    receiptUrl = await getDownloadURL(storageRef);
+    receiptName = file.name; receiptFileType = file.type; receiptFileSize = formatSize(file.size);
+  }
+  await addDoc(collection(db, 'clients', clientId, 'payments'), { amount: Number(amount), paidOn: serverTimestamp(), receiptUrl, receiptName, receiptFileType, receiptFileSize });
+  await updateDoc(doc(db, 'clients', clientId), { 'visibility.payments': true, lastEdited: serverTimestamp() });
+  showToast('Payment entry saved!');
+};
+
+window.deletePayment = async function(id) {
+  if (!confirm('Delete this payment entry?')) return;
+  await deleteDoc(doc(db, 'clients', clientId, 'payments', id));
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+  showToast('Payment deleted');
+};
+
+function loadContacts() {
+  const q = query(collection(db, 'clients', clientId, 'contacts'), orderBy('order', 'asc'));
+  onSnapshot(q, (snap) => {
+    const list = document.getElementById('contactsList');
+    list.innerHTML = '';
+    snap.docs.forEach(d => {
+      const c = d.data();
+      const initials = c.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+      list.innerHTML += '<div class="contact-card"><div class="contact-avatar">' + initials + '</div><div style="flex:1;"><div class="contact-name">' + c.name + (c.isDefault ? ' <span style="font-size:10px;color:var(--teal);">· Default</span>' : '') + '</div><div class="contact-desig">' + (c.designation || '—') + '</div><div class="contact-detail">' + (c.phone ? '<span>' + c.phone + '</span>' : '') + (c.email ? '<span>' + c.email + '</span>' : '') + '</div></div><div style="display:flex;gap:6px;"><button onclick="window.editContact(\'' + d.id + '\',\'' + c.name.replace(/'/g,"\\'") + '\',\'' + (c.designation||'').replace(/'/g,"\\'") + '\',\'' + (c.phone||'') + '\',\'' + (c.email||'') + '\')" class="btn btn-ghost" style="font-size:11px;">Edit</button>' + (!c.isDefault ? '<button onclick="deleteContact(\'' + d.id + '\')" class="btn btn-ghost" style="font-size:11px;">Remove</button>' : '') + '</div></div>';
+    });
+  });
+}
+
+window.openContactModal = function() {
+  ['contactName','contactDesign','contactPhone','contactEmail'].forEach(id => document.getElementById(id).value = '');
+  window._editingContactId = null;
+  openModal('contact');
+};
+
+window.saveContact = async function() {
+  const name = document.getElementById('contactName').value.trim();
+  const design = document.getElementById('contactDesign').value.trim();
+  const phone = document.getElementById('contactPhone').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  if (!name) { showToast('Please enter a name'); return; }
+  const snap = await getDocs(collection(db, 'clients', clientId, 'contacts'));
+  await addDoc(collection(db, 'clients', clientId, 'contacts'), { name, designation: design, phone, email, order: snap.size, isDefault: false });
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+  closeModal('contact');
+  showToast('Contact saved!');
+};
+
+window.deleteContact = async function(id) {
+  if (!confirm('Remove this contact?')) return;
+  await deleteDoc(doc(db, 'clients', clientId, 'contacts', id));
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+  showToast('Contact removed');
+};
+
+function loadQuestionnaire() {
+  const q = query(collection(db, 'clients', clientId, 'questionnaire'), orderBy('order', 'asc'));
+  let lastSnapshotData = [];
+  onSnapshot(q, (snap) => {
+    const list = document.getElementById('questionsList');
+    const empty = document.getElementById('questionsEmpty');
+    if (snap.empty) { list.innerHTML = ''; empty.style.display = 'block'; lastSnapshotData = []; return; }
+    empty.style.display = 'none';
+
+    const newData = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+    // If only answerText/answeredAt changed (client answered) and admin is
+    // currently focused on a textarea in this list, update just the answer
+    // display for that item instead of wiping the whole list (which would
+    // lose the admin's in-progress edit/focus).
+    const activeEl = document.activeElement;
+    const adminIsEditing = activeEl && activeEl.tagName === 'TEXTAREA' && list.contains(activeEl);
+
+    const structureChanged =
+      newData.length !== lastSnapshotData.length ||
+      newData.some((nq, i) => {
+        const oq = lastSnapshotData[i];
+        return !oq || oq.id !== nq.id || oq.questionText !== nq.questionText || oq.order !== nq.order;
+      });
+
+    lastSnapshotData = newData;
+
+    if (adminIsEditing && !structureChanged) {
+      // Just refresh the answer text for each item without rebuilding the list
+      newData.forEach(qd => {
+        const item = document.getElementById('qi-' + qd.id);
+        if (!item) return;
+        const ansEl = item.querySelector('.q-answer');
+        const newAnsHtml = qd.answerText ? 'A: ' + qd.answerText : 'Not answered yet';
+        if (ansEl && ansEl.textContent !== newAnsHtml) ansEl.textContent = newAnsHtml;
+      });
+      return;
+    }
+
+    list.innerHTML = '';
+    snap.docs.forEach((d, i) => {
+      const q = d.data();
+      if (i > 0) {
+        const divider = document.createElement('div');
+        divider.style.cssText = 'height:8px;text-align:center;position:relative;margin:0;';
+        divider.innerHTML = '<button class="q-ins-btn" onclick="insertQuestionAfter(\'' + snap.docs[i-1].id + '\',' + snap.docs[i-1].data().order + ')" style="display:none;position:absolute;left:50%;transform:translateX(-50%) translateY(-50%);top:50%;background:var(--teal);color:white;border:none;border-radius:50%;width:22px;height:22px;font-size:16px;cursor:pointer;z-index:10;align-items:center;justify-content:center;line-height:1;">+</button>';
+        divider.addEventListener('mouseenter', () => divider.querySelector('.q-ins-btn').style.display = 'flex');
+        divider.addEventListener('mouseleave', () => divider.querySelector('.q-ins-btn').style.display = 'none');
+        list.appendChild(divider);
+      }
+      const item = document.createElement('div');
+      item.className = 'q-item';
+      item.id = 'qi-' + d.id;
+      item.innerHTML = '<div class="q-num">Q' + (i+1) + '</div><div style="flex:1;"><textarea style="width:100%;border:1px solid var(--border);border-radius:3px;padding:8px;font-family:\'DM Sans\',sans-serif;font-size:13px;color:var(--dark);resize:vertical;min-height:52px;background:var(--warm-white);outline:none;transition:border-color 0.15s;" onfocus="this.style.borderColor=\'var(--teal)\';this.style.background=\'white\';" onblur="this.style.borderColor=\'var(--border)\';this.style.background=\'var(--warm-white)\';updateQuestionText(\'' + d.id + '\',this.value)">' + q.questionText + '</textarea>' + (q.answerText ? '<div class="q-answer" style="margin-top:4px;">A: ' + q.answerText + '</div>' : '<div class="q-answer" style="margin-top:4px;">Not answered yet</div>') + '</div><button onclick="deleteQuestion(\'' + d.id + '\')" style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:20px;line-height:1;flex-shrink:0;padding:0 4px;">×</button>';
+      list.appendChild(item);
+    });
+  });
+}
+
+window.openQuestionModal = function() { document.getElementById('questionText').value = ''; openModal('question'); };
+
+window.saveQuestion = async function() {
+  const text = document.getElementById('questionText').value.trim();
+  if (!text) { showToast('Please enter a question'); return; }
+  const snap = await getDocs(collection(db, 'clients', clientId, 'questionnaire'));
+  await addDoc(collection(db, 'clients', clientId, 'questionnaire'), { questionText: text, order: snap.size, answerText: '', answeredAt: null });
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+  closeModal('question');
+  showToast('Question added!');
+};
+
+window.deleteQuestion = async function(id) {
+  if (!confirm('Delete this question?')) return;
+  await deleteDoc(doc(db, 'clients', clientId, 'questionnaire', id));
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+  showToast('Question deleted');
+};
+
+window.updateQuestionText = async function(id, newText) {
+  if (!newText.trim()) return;
+  await updateDoc(doc(db, 'clients', clientId, 'questionnaire', id), { questionText: newText.trim() });
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+};
+
+window.insertQuestionAfter = async function(afterId, afterOrder) {
+  const text = prompt('Enter new question:');
+  if (!text || !text.trim()) return;
+  const snap = await getDocs(collection(db, 'clients', clientId, 'questionnaire'));
+  const batch = writeBatch(db);
+  snap.docs.forEach(d => { if (d.data().order > afterOrder) batch.update(doc(db, 'clients', clientId, 'questionnaire', d.id), { order: d.data().order + 1 }); });
+  const newRef = doc(collection(db, 'clients', clientId, 'questionnaire'));
+  batch.set(newRef, { questionText: text.trim(), order: afterOrder + 1, answerText: '', answeredAt: null });
+  await batch.commit();
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+  showToast('Question inserted!');
+};
+
+window.loadDefaultQuestions = async function() {
+  const snap = await getDocs(collection(db, 'clients', clientId, 'questionnaire'));
+  if (snap.size > 0 && !confirm('This will add the default questions to existing ones. Continue?')) return;
+  const defaultQuestions = [
+    "Describe your current or old home. What do you like about it? What's missing? What don't you like? What would you want to change?",
+    "How many people should this new house cater to? What are the ages of the members staying? Are there any pets to be accommodated?",
+    "What is your lifestyle? Are you at home a great deal? Do you work at home? Do you entertain often?",
+    "What kind of kitchen do you like? Do you enjoy cooking and spend a lot of time in the kitchen?",
+    "Would you like an open kitchen, semi-open or totally closed?",
+    "Do you have a staff member who prepares meals? Do you eat out most of the time?",
+    "Which bedroom is going to cater to which family member? What other activities are you looking for in each room apart from sleeping? Like study, art or music?",
+    "Do you want to keep any room for multi-purpose space? If yes, what purposes would that space serve?",
+    "What is your idea for wardrobe space? Would you want a separate accessory closet? Do you like storing off-season clothes?",
+    "How would you describe your storage needs? Do you like to store stuff or are you a minimalist?",
+    "Do you want the design to follow Vastu Guidelines? Fully or partially?",
+    "Do you want a pooja room? If yes, what kind?",
+    "How much time and energy are you willing to invest to maintain your home? Are you planning to keep house help?",
+    "Which area of the home do you enjoy spending time in mostly?",
+    "Do you like having plants? Indoors, outdoors or both? Are you willing to spend on maintaining them?",
+    "Do you have any images from magazines or references that show a style you like?",
+    "Do you have any material preferences? Something that you absolutely love or hate?",
+    "Anything specific you need to tell us which comes to your mind at this stage regarding your home?",
+    "Any existing furniture that needs to be put into the design? If so, please share images and measurements."
+  ];
+  for (let i = 0; i < defaultQuestions.length; i++) {
+    await addDoc(collection(db, 'clients', clientId, 'questionnaire'), { questionText: defaultQuestions[i], order: snap.size + i, answerText: '', answeredAt: null });
+  }
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+  showToast('19 default questions loaded!');
+};
+
+function loadSchedule() {
+  const q = collection(db, 'clients', clientId, 'workSchedule');
+  onSnapshot(q, (snap) => {
+    scheduleRows = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .sort((a, b) => (a.sno || 0) - (b.sno || 0));
+    renderSchedule();
+  });
+}
+
+function renderSchedule() {
+  const tbody = document.getElementById('scheduleBody');
+  const empty = document.getElementById('scheduleEmpty');
+  if (scheduleRows.length === 0) { tbody.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  tbody.innerHTML = '';
+  scheduleRows.forEach((row, i) => {
+    const displayDate = row.expectedDate
+      ? new Date(row.expectedDate).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' })
+      : 'dd-mm-yyyy';
+    const dateVal = row.expectedDate ? row.expectedDate.substring(0, 10) : '';
+    const taskVal = (row.task || '').replace(/"/g, '&quot;');
+    const scopeVal = (row.scope || '').replace(/"/g, '&quot;');
+
+    if (i > 0) {
+      const insertTr = document.createElement('tr');
+      insertTr.style.cssText = 'height:8px;';
+      const insertBtn = document.createElement('button');
+      insertBtn.className = 'insert-row-btn';
+      insertBtn.textContent = '+';
+      insertBtn.style.cssText = 'display:none;position:absolute;left:50%;transform:translateX(-50%) translateY(-50%);top:50%;background:var(--teal);color:white;border:none;border-radius:50%;width:22px;height:22px;font-size:16px;cursor:pointer;z-index:10;align-items:center;justify-content:center;line-height:1;';
+      insertBtn.onclick = () => insertRowBetween(i);
+      const insertTd = document.createElement('td');
+      insertTd.setAttribute('colspan', '6');
+      insertTd.style.cssText = 'padding:0;text-align:center;position:relative;';
+      insertTd.appendChild(insertBtn);
+      insertTr.appendChild(insertTd);
+      insertTr.addEventListener('mouseenter', () => insertBtn.style.display = 'flex');
+      insertTr.addEventListener('mouseleave', () => insertBtn.style.display = 'none');
+      tbody.appendChild(insertTr);
+    }
+
+    const tr = document.createElement('tr');
+
+    // S.No cell
+    const td1 = document.createElement('td');
+    td1.style.cssText = 'color:var(--text-muted);text-align:center;';
+    td1.textContent = i + 1;
+
+    // Task cell
+    const td2 = document.createElement('td');
+    const taskInput = document.createElement('input');
+    taskInput.className = 'schedule-input';
+    taskInput.value = row.task || '';
+    taskInput.onchange = () => updateScheduleField(row.id, 'task', taskInput.value);
+    td2.appendChild(taskInput);
+
+    // Date cell
+    const td3 = document.createElement('td');
+    const dateWrap = document.createElement('div');
+    dateWrap.className = 'date-cell-wrap';
+    const dateSpan = document.createElement('span');
+    dateSpan.className = 'date-display';
+    dateSpan.textContent = displayDate;
+    const calIcon = document.createElement('span');
+    calIcon.className = 'cal-icon';
+    calIcon.title = 'Change date';
+    calIcon.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>';
+    calIcon.onclick = () => openDatePicker(calIcon);
+    const dateInput = document.createElement('input');
+    dateInput.type = 'date';
+    dateInput.className = 'date-picker-hidden';
+    dateInput.value = dateVal;
+    dateInput.onchange = function() {
+      updateScheduleField(row.id, 'expectedDate', this.value);
+      updateDateDisplay(this);
+    };
+    dateWrap.appendChild(dateSpan);
+    dateWrap.appendChild(calIcon);
+    dateWrap.appendChild(dateInput);
+    td3.appendChild(dateWrap);
+
+    // Scope cell
+    const td4 = document.createElement('td');
+    const scopeInput = document.createElement('input');
+    scopeInput.className = 'schedule-input';
+    scopeInput.value = row.scope || '';
+    scopeInput.onchange = () => updateScheduleField(row.id, 'scope', scopeInput.value);
+    td4.appendChild(scopeInput);
+
+    // Done cell
+    const td5 = document.createElement('td');
+    td5.style.textAlign = 'center';
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = !!row.isDone;
+    checkbox.style.cssText = 'width:16px;height:16px;cursor:pointer;accent-color:var(--teal);';
+    checkbox.onchange = () => updateScheduleField(row.id, 'isDone', checkbox.checked);
+    td5.appendChild(checkbox);
+
+    // Delete cell
+    const td6 = document.createElement('td');
+    td6.style.textAlign = 'center';
+    const delBtn = document.createElement('button');
+    delBtn.textContent = '×';
+    delBtn.style.cssText = 'background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;';
+    delBtn.onclick = () => deleteScheduleRow(row.id);
+    td6.appendChild(delBtn);
+
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+    tr.appendChild(td4);
+    tr.appendChild(td5);
+    tr.appendChild(td6);
+    tbody.appendChild(tr);
+  });
+}
+
+window.loadScheduleTemplate = async function() {
+  const existing = await getDocs(collection(db, 'clients', clientId, 'workSchedule'));
+  if (existing.size > 0 && !confirm('This will add template rows to existing ones. Continue?')) return;
+  const template = [
+    { sno:1,  task:'Production of woodwork at factory', expectedDate:'', scope:'Evara Scope' },
+    { sno:2,  task:'Projector Screen & Clamp to be ordered and kept at site', expectedDate:'', scope:'Client Scope' },
+    { sno:3,  task:'Pending electrical works to be completed', expectedDate:'', scope:'Client Scope' },
+    { sno:4,  task:'Projector Screen wall clamp to be fixed', expectedDate:'', scope:'Client Scope' },
+    { sno:5,  task:'Wall area — first coat of color paint, texture paint sample finalisation', expectedDate:'', scope:'Client Scope, Evara Scope' },
+    { sno:6,  task:'Dispatch of modular cabinet boxes to site', expectedDate:'', scope:'Evara Scope' },
+    { sno:7,  task:'Installation of Cabinets & BackPly for mirror & Glass — Need plumber on-site', expectedDate:'', scope:'Evara Scope, Client Scope' },
+    { sno:8,  task:'Glass template taken and ordered. Ply support for hanging lights', expectedDate:'', scope:'Evara Scope' },
+    { sno:9,  task:'First coat of ceiling paint', expectedDate:'', scope:'Client Scope' },
+    { sno:10, task:'Light fitting installation on ceiling only', expectedDate:'', scope:'Client Scope' },
+    { sno:11, task:'Texture paint application', expectedDate:'', scope:'Client Scope' },
+    { sno:12, task:'Ceiling touch up & final coat of paint', expectedDate:'', scope:'Client Scope' },
+    { sno:13, task:'MS Rods to be fitted for TV unit', expectedDate:'', scope:'Client Scope' },
+    { sno:14, task:'Pendant lights, ceiling track light, cove lights installation', expectedDate:'', scope:'Client Scope' },
+    { sno:15, task:'Closet door, Glass & Mirror installation along with mirror lights', expectedDate:'', scope:'Evara Scope' },
+    { sno:16, task:'Debris disposal & Handover of site', expectedDate:'', scope:'Evara Scope' },
+  ];
+  const base = existing.size;
+  for (const row of template) {
+    await addDoc(collection(db, 'clients', clientId, 'workSchedule'), { sno: base + row.sno, task: row.task, expectedDate: row.expectedDate, scope: row.scope, isDone: false });
+  }
+  await updateDoc(doc(db, 'clients', clientId), { 'visibility.workSchedule': true, lastEdited: serverTimestamp() });
+  showToast('Template loaded — 16 tasks added!');
+};
+
+window.insertRowBetween = async function(atIndex) {
+  const batch = writeBatch(db);
+  scheduleRows.forEach((row, i) => {
+    if (i >= atIndex) batch.update(doc(db, 'clients', clientId, 'workSchedule', row.id), { sno: (row.sno || i+1) + 1 });
+  });
+  const newSno = (scheduleRows[atIndex-1].sno || atIndex) + 1;
+  const newRef = doc(collection(db, 'clients', clientId, 'workSchedule'));
+  batch.set(newRef, { sno: newSno, task: '', expectedDate: '', scope: '', isDone: false });
+  await batch.commit();
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+};
+
+window.addScheduleRow = async function() {
+  const sno = scheduleRows.length + 1;
+  await addDoc(collection(db, 'clients', clientId, 'workSchedule'), { sno, task: '', expectedDate: '', scope: '', isDone: false });
+  await updateDoc(doc(db, 'clients', clientId), { 'visibility.workSchedule': true, lastEdited: serverTimestamp() });
+};
+
+window.updateScheduleField = async function(id, field, value) {
+  await updateDoc(doc(db, 'clients', clientId, 'workSchedule', id), { [field]: value });
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+};
+
+window.deleteScheduleRow = async function(id) {
+  if (!confirm('Delete this row?')) return;
+  await deleteDoc(doc(db, 'clients', clientId, 'workSchedule', id));
+  await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+};
+
+function loadMeetingNotes() {
+  onSnapshot(doc(db, 'clients', clientId), (snap) => {
+    if (!snap.exists()) return;
+    const notes = snap.data().meetingNotes || '';
+    const el = document.getElementById('meetingNotesArea');
+    if (el.value !== notes) el.value = notes;
+  });
+}
+
+document.getElementById('meetingNotesArea').addEventListener('input', function() {
+  const statusEl = document.getElementById('autoSaveStatus');
+  statusEl.textContent = 'Saving...';
+  clearTimeout(notesTimer);
+  notesTimer = setTimeout(async () => {
+    await updateDoc(doc(db, 'clients', clientId), { meetingNotes: this.value, lastEdited: serverTimestamp() });
+    statusEl.innerHTML = '✓ Auto-saved';
+    setTimeout(() => statusEl.textContent = '', 2000);
+  }, 1000);
+});
+
+window.switchTab = function(tab, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.pc-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  btn.classList.add('active');
+};
+
+window.openModal = function(name) { document.getElementById('modal-' + name).classList.add('open'); };
+window.closeModal = function(name) { document.getElementById('modal-' + name).classList.remove('open'); };
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target === m) m.classList.remove('open'); });
+});
+
+window.openDatePicker = function(iconEl) {
+  const input = iconEl.nextElementSibling;
+  input.style.position = 'fixed';
+  input.style.opacity = '0';
+  input.style.pointerEvents = 'auto';
+  input.style.width = '1px';
+  input.style.height = '1px';
+  input.showPicker();
+  setTimeout(() => {
+    input.style.position = 'absolute';
+    input.style.pointerEvents = 'none';
+    input.style.width = '0';
+    input.style.height = '0';
+  }, 500);
+};
+
+window.updateDateDisplay = function(input) {
+  const wrap = input.closest('.date-cell-wrap');
+  const display = wrap.querySelector('.date-display');
+  display.textContent = input.value ? new Date(input.value).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' }) : 'dd-mm-yyyy';
+};
+
+function formatSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes/1024).toFixed(1) + ' KB';
+  return (bytes/1048576).toFixed(1) + ' MB';
+}
+
+window.editBudget = async function() {
+  const current = clientData.totalBudget || 0;
+  const newVal = prompt('Enter new total budget (₹):', current);
+  if (newVal === null) return;
+  const num = Number(newVal.replace(/,/g, ''));
+  if (isNaN(num) || num < 0) { showToast('Invalid amount'); return; }
+  await updateDoc(doc(db, 'clients', clientId), {
+    totalBudget: num,
+    lastEdited: serverTimestamp()
+  });
+  showToast('Total budget updated!');
+};
+
+window.saveContact = async function() {
+  const name  = document.getElementById('contactName').value.trim();
+  const design = document.getElementById('contactDesign').value.trim();
+  const phone = document.getElementById('contactPhone').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  if (!name) { showToast('Please enter a name'); return; }
+  if (!design) { showToast('Please enter a designation'); return; }
+  try {
+    if (window._editingContactId) {
+      await updateDoc(doc(db, 'clients', clientId, 'contacts', window._editingContactId), {
+        name, designation: design, phone, email
+      });
+      window._editingContactId = null;
+      showToast('Contact updated!');
+    } else {
+      const snap = await getDocs(collection(db, 'clients', clientId, 'contacts'));
+      await addDoc(collection(db, 'clients', clientId, 'contacts'), {
+        name, designation: design, phone, email, order: snap.size, isDefault: false
+      });
+      showToast('Contact saved!');
+    }
+    await updateDoc(doc(db, 'clients', clientId), { lastEdited: serverTimestamp() });
+    closeModal('contact');
+  } catch(e) { showToast('Error: ' + e.message); }
+};
+
+window.editContact = function(id, name, design, phone, email) {
+  document.getElementById('contactName').value = name;
+  document.getElementById('contactDesign').value = design;
+  document.getElementById('contactPhone').value = phone;
+  document.getElementById('contactEmail').value = email;
+  window._editingContactId = id;
+  openModal('contact');
+};
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(() => t.style.display = 'none', 3000);
+}
+
+document.getElementById('contactSaveBtn').addEventListener('click', window.saveContact);
+
+// ── EDIT CLIENT ──
+window.openEditClientModal = function() {
+  if (!clientId  || !clientData) return;
+  document.getElementById('edit_displayName').value   = clientData.displayName || '';
+  document.getElementById('edit_phone').value         = clientData.phone || '';
+  document.getElementById('edit_email').value         = clientData.email || '';
+  document.getElementById('edit_projectName').value   = clientData.projectName || '';
+  document.getElementById('edit_propertyType').value  = clientData.propertyType || '';
+  document.getElementById('edit_location').value      = clientData.location || '';
+  document.getElementById('edit_totalBudget').value   = clientData.totalBudget || '';
+  document.getElementById('edit_startDate').value     = clientData.startDate || '';
+  document.getElementById('edit_projectStatus').value = clientData.projectStatus || 'Planning';
+  document.getElementById('editClientError').style.display = 'none';
+  document.getElementById('modal-editclient').classList.add('open');
+};
+
+window.saveEditClient = async function() {
+  const displayName   = document.getElementById('edit_displayName').value.trim();
+  const phone         = document.getElementById('edit_phone').value.trim();
+  const projectName   = document.getElementById('edit_projectName').value.trim();
+  const propertyType  = document.getElementById('edit_propertyType').value;
+  const location      = document.getElementById('edit_location').value.trim();
+  const totalBudget   = document.getElementById('edit_totalBudget').value;
+  const startDate     = document.getElementById('edit_startDate').value;
+  const projectStatus = document.getElementById('edit_projectStatus').value;
+  const errEl         = document.getElementById('editClientError');
+
+  if (!displayName || !projectName) {
+    errEl.textContent = 'Client name and project name are required.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  try {
+    await updateDoc(doc(db, 'clients', clientId), {
+      displayName,
+      phone,
+      email: document.getElementById('edit_email').value.trim(),
+      projectName,
+      propertyType,
+      location,
+      totalBudget: totalBudget ? Number(totalBudget) : 0,
+      startDate,
+      projectStatus,
+      lastEdited: serverTimestamp()
+    });
+    closeModal('editclient');
+    showToast('Client details updated!');
+    document.getElementById('topbarClientName').textContent = displayName;
+  } catch (err) {
+    errEl.textContent = 'Error saving: ' + err.message;
+    errEl.style.display = 'block';
+  }
+};
+/* ── Disable browser back/forward ── */
+history.pushState(null, '', location.href);
+window.addEventListener('popstate', () => {
+  history.go(1); // cancel the back navigation by going forward again
+});
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) {
+    window.location.reload();
+  }
+});
+</script>
+
+</body>
+</html>
