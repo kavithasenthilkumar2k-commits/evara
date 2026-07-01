@@ -544,10 +544,7 @@ popup.addEventListener('click', (e) => {
         Source: 'Popup Form',
       };
 
-      const proxyUrl = 'https://corsproxy.io/?';
-      const targetUrl = 'https://hook.eu1.make.com/qi8o4y1zdt79iaqgmpekp9mc1nf2h4ou';
-
-      fetch(proxyUrl + encodeURIComponent(targetUrl), {
+      fetch('https://hook.eu1.make.com/qi8o4y1zdt79iaqgmpekp9mc1nf2h4ou', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
